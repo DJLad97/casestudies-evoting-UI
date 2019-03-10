@@ -1,15 +1,13 @@
 import jwt_decode from 'jwt-decode';
+import isEmpty from 'is-empty';
 import axios from 'axios';
 
 const TOKEN_KEY = 'jwtToken';
 
 const auth = { 
-    isAuthenticated: false,
-
     setToken(token) {
         localStorage.setItem(TOKEN_KEY, token);
-        auth.isAuthenticated = true;
-        auth.setRequestHeader(token);
+        this.setRequestHeader(token);
     },
 
     setRequestHeader(token) {
@@ -33,7 +31,19 @@ const auth = {
     logout() {
         localStorage.removeItem(TOKEN_KEY);
         auth.setRequestHeader(false);
-        auth.isAuthenticated = false;
+        // this.isAuthenticated = false;
+    },
+
+    isAuthenticated() {
+        const token = auth.getToken();
+
+        if(token){
+            const decoded = jwt_decode(auth.getToken());
+            if(!isEmpty(decoded)){
+                return true;
+            }
+        }
+        return false;
     }
 }
 
