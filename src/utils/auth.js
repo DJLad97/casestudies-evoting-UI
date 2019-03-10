@@ -4,8 +4,11 @@ import axios from 'axios';
 const TOKEN_KEY = 'jwtToken';
 
 const auth = { 
+    isAuthenticated: false,
+
     setToken(token) {
         localStorage.setItem(TOKEN_KEY, token);
+        auth.isAuthenticated = true;
         auth.setRequestHeader(token);
     },
 
@@ -30,6 +33,7 @@ const auth = {
     logout() {
         localStorage.removeItem(TOKEN_KEY);
         auth.setRequestHeader(false);
+        auth.isAuthenticated = false;
     }
 }
 
