@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
-import logo from './logo.svg';
-import './App.css';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/Login';
