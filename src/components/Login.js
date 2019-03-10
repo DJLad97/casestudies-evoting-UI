@@ -5,8 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 import axios from 'axios'
-import jwt_decode from 'jwt-decode';
-import setAuthToken from '../utils/setAuthToken';
+import auth from '../utils/auth';
 import '../styles/login.css'
 
 export default class Login extends Component {
@@ -33,8 +32,10 @@ export default class Login extends Component {
 		axios.post('http://evoting-endpoint-evoting-endpoint.1d35.starter-us-east-1.openshiftapps.com/users/login', loginData)
 			.then((res) => {
 				const token = res.data;
-				localStorage.setItem('jwtToken', token);
-				setAuthToken(token);
+				auth.setToken(token);
+				console.log(auth.getUserInfo());
+				// localStorage.setItem('jwtToken', token);
+				// setAuthToken(token);
 			})
 			.catch((err) => {
 				console.log(err);
