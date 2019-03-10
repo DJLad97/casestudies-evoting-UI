@@ -33,9 +33,7 @@ export default class Login extends Component {
 			.then((res) => {
 				const token = res.data;
 				auth.setToken(token);
-				console.log(auth.getUserInfo());
-				// localStorage.setItem('jwtToken', token);
-				// setAuthToken(token);
+				this.props.history.push('/elections');
 			})
 			.catch((err) => {
 				console.log(err);
