@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import auth from '../utils/auth';
 
 class Elections extends Component {
     constructor(props) {
@@ -7,9 +7,13 @@ class Elections extends Component {
 
     }
 
+    componentDidMount(){
+        console.log(auth.getUserInfo());
+    }
+
     render() {
         return (
-            <div>
+            <div className="page-content-box">
                 <h1>Elections list</h1>
             </div>
         );

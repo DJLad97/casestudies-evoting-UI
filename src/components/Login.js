@@ -45,7 +45,7 @@ export default class Login extends Component {
 			<div id="login-container">
 				<Row>
 					<Col md={{ span: 8, offset: 2}}>
-						<div id="login-form">
+						<div className="page-content-box">
 							<h1>Login</h1>
 							<Form onSubmit={this.handleSubmit}>
 								<Form.Group controlId="formBasicEmail">

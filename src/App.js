@@ -6,6 +6,9 @@ import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/Login';
 import Elections from './components/Elections';
 
+import './App.css';
+
+
 class App extends Component {
   render() {
     return (
