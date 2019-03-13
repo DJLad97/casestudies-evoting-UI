@@ -18,6 +18,12 @@ export default class Login extends Component {
 		}
 	}
 
+	componentDidMount(){
+		if(auth.isAuthenticated()){
+			this.props.history.push('/elections');
+		}
+	}
+
 	onChange = (e) => {
 		this.setState({[e.target.name]: e.target.value});
 	}
