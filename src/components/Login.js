@@ -3,10 +3,11 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
 import axios from 'axios'
+
 import auth from '../utils/auth';
-import '../styles/login.css'
+
+import '../styles/login.css';
 
 export default class Login extends Component {
 	constructor(props) {
