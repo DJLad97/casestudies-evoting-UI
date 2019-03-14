@@ -4,10 +4,10 @@ import Container from 'react-bootstrap/Container';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/Login';
-import Elections from './components/Elections';
+import ElectionsList from './components/ElectionsList';
+import ElectionVote from './components/ElectionVote';
 
 import './App.css';
-
 
 class App extends Component {
   render() {
@@ -16,7 +16,9 @@ class App extends Component {
 			<div className="App">
 				<Container>
 					<Route path="/login" component={Login}/>
-					<ProtectedRoute path="/elections" component={Elections} />
+					<ProtectedRoute path="/elections" component={ElectionsList} />
+					<ProtectedRoute path="/election/:name" component={ElectionVote}/>
+
 				</Container>
 			</div>
 		</Router>
@@ -25,3 +27,11 @@ class App extends Component {
 }
 
 export default App;
+
+// const Election = (props) => {
+//     return (
+//         <div>
+//             <h3>{props.election}</h3>
+//         </div>
+//     )
+// }
