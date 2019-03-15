@@ -2,12 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Row  from 'react-bootstrap/Row';
 import Col  from 'react-bootstrap/Col';
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import auth from '../utils/auth';
 import ElectionLink from './ElectionLink';
-import ProtectedRoute from './ProtectedRoute';
-import ElectionVote from './ElectionVote';
 
 import '../styles/elections-list.css';
 
@@ -26,14 +24,16 @@ class ElectionsList extends Component {
                 'x-access-token': auth.getToken()
             }
         }
+        const userInfo = auth.getUserInfo();
+        const endpoint = userInfo.expectedEndpoint;
         // console.log(axios.defaults.headers);
-        axios.get('http://evoting-voting2-evoting-endpoint.1d35.starter-us-east-1.openshiftapps.com/elections/current', headers)
+        axios.get(endpoint + '/elections/current', headers)
             .then((res) => {
                 // console.log(res);
                 this.setState({currentElections: res.data, loading: false});
 
             })
-        // console.log(auth.getUserInfo());
+        console.log(auth.getUserInfo());
     }
 
     renderElections = () => {
