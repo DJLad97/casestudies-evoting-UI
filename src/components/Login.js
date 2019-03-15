@@ -62,9 +62,6 @@ export default class Login extends Component {
 									<Form.Control type="text" placeholder="Post Code" 
 										name="postCode" onChange={this.onChange} 
 										value={this.state.postCode} />
-									<Form.Text className="text-muted">
-										We'll never share your email with anyone else.
-									</Form.Text>
 								</Form.Group>
 
 								<Form.Group controlId="formBasicPassword">
