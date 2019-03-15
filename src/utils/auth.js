@@ -29,6 +29,12 @@ const auth = {
         return jwt_decode(token);
     },
 
+    getUserEndpoint() {
+        const token = auth.getToken();
+        const userInfo = jwt_decode(token);
+        return userInfo.expectedEndpoint;
+    },
+
     logout() {
         localStorage.removeItem(TOKEN_KEY);
         auth.setRequestHeader(false);

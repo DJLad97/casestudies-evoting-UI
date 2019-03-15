@@ -24,12 +24,9 @@ class ElectionsList extends Component {
                 'x-access-token': auth.getToken()
             }
         }
-        const userInfo = auth.getUserInfo();
-        const endpoint = userInfo.expectedEndpoint;
-        // console.log(axios.defaults.headers);
+        const endpoint = auth.getUserEndpoint();
         axios.get(endpoint + '/elections/current', headers)
             .then((res) => {
-                // console.log(res);
                 this.setState({currentElections: res.data, loading: false});
 
             })
