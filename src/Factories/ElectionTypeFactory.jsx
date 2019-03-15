@@ -5,13 +5,13 @@ import SingleTransferrableVote from "../components/VotingTypes/SingleTransferrab
 
 export default class ElectionTypeFactory {
   static build(data) {
-    switch (data.votetype) {
-      case "fptp":
-        return <FirstPastThePost votedata={data} />;
-      case "pv":
-        return <PreferentialVoting votedata={data} />;
-      case "stv":
-        return <SingleTransferrableVote votedata={data} />;
+    switch (data.electionType) {
+      case "FPTP":
+        return <FirstPastThePost election={data} />;
+      case "PV":
+        return <PreferentialVoting election={data} />;
+      case "STV":
+        return <SingleTransferrableVote election={data} />;
       default:
         return undefined;
     }

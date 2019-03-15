@@ -16,6 +16,7 @@ import "../styles/elections-list.css";
 class ElectionsList extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       currentElections: [],
       loading: true
@@ -55,8 +56,15 @@ class ElectionsList extends Component {
           >
             <ElectionLink name={election.electionName} />
           </Link>
+
           <Button className="AsAuditor" variant="outline-dark">
-            View as Auditor
+            <Link
+              key={index}
+              to={{ pathname: `/audit/${formattedName}`, state: { election } }}
+            >
+              {" "}
+              View as Auditor
+            </Link>
           </Button>
         </React.Fragment>
       );
