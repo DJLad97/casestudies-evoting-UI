@@ -4,7 +4,7 @@ import axios from 'axios';
 
 const TOKEN_KEY = 'jwtToken';
 
-const auth = { 
+const AuthClass = { 
     setToken(token) {
         localStorage.setItem(TOKEN_KEY, token);
         this.setRequestHeader(token);
@@ -25,21 +25,21 @@ const auth = {
     },
 
     getUserInfo() {
-        const token = auth.getToken();
+        const token = AuthClass.getToken();
         return jwt_decode(token);
     },
 
     logout() {
         localStorage.removeItem(TOKEN_KEY);
-        auth.setRequestHeader(false);
+        AuthClass.setRequestHeader(false);
         // this.isAuthenticated = false;
     },
 
     isAuthenticated() {
-        const token = auth.getToken();
+        const token = AuthClass.getToken();
 
         if(token){
-            const decoded = jwt_decode(auth.getToken());
+            const decoded = jwt_decode(AuthClass.getToken());
             if(!isEmpty(decoded)){
                 return true;
             }
@@ -48,4 +48,28 @@ const auth = {
     }
 }
 
-export default auth;
+
+
+
+
+var Auth = (function(){
+
+    var instance;
+
+    function createInstance() {
+        let ins = AuthClass;
+        return ins;
+    }
+
+    return {
+        getInstance: function () {
+            if (!instance) {
+                instance = createInstance();
+            }
+            return instance;
+        }
+    };
+
+})();
+
+export default Auth;

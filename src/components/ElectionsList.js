@@ -23,7 +23,7 @@ class ElectionsList extends Component {
     componentDidMount(){
         const headers = {
             headers: {
-                'x-access-token': auth.getToken()
+                'x-access-token': auth.getInstance().getToken()
             }
         }
         // console.log(axios.defaults.headers);
@@ -33,7 +33,7 @@ class ElectionsList extends Component {
                 this.setState({currentElections: res.data, loading: false});
 
             })
-        // console.log(auth.getUserInfo());
+        // console.log(auth.getInstance().getUserInfo());
     }
 
     renderElections = () => {

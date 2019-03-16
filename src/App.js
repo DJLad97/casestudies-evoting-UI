@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import Container from 'react-bootstrap/Container';
+import Redirector from './utils/Redirector';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/Login';
@@ -15,6 +16,8 @@ class App extends Component {
 		<Router>
 			<div className="App">
 				<Container>
+					<Redirector />
+					<Redirect from="/" to="login" />
 					<Route path="/login" component={Login}/>
 					<ProtectedRoute path="/elections" component={ElectionsList} />
 					<ProtectedRoute path="/election/:name" component={ElectionVote}/>

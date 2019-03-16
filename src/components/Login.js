@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
+import PubSub from 'pubsub-js'
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import axios from 'axios'
+import RegisterModalButton from './RegisterModalButton';
 
 import auth from '../utils/auth';
 
@@ -20,8 +22,8 @@ export default class Login extends Component {
 	}
 
 	componentDidMount(){
-		if(auth.isAuthenticated()){
-			this.props.history.push('/elections');
+		if(auth.getInstance().isAuthenticated()){
+			PubSub.publish('navigation', '/elections');
 		}
 	}
 
@@ -33,14 +35,14 @@ export default class Login extends Component {
 		e.preventDefault();
 
 		const loginData = {
-			postCode: this.state.postCode,
+			postCode: this.state.postCode.replace(/\s/g,'').toLowerCase(),
 			userCode: this.state.userCode
 		}
 		axios.post('http://evoting-endpoint-evoting-endpoint.1d35.starter-us-east-1.openshiftapps.com/users/login', loginData)
 			.then((res) => {
 				const token = res.data;
-				auth.setToken(token);
-				this.props.history.push('/elections');
+				auth.getInstance().setToken(token);
+				PubSub.publish('navigation', '/elections');
 			})
 			.catch((err) => {
 				console.log(err);
@@ -61,7 +63,7 @@ export default class Login extends Component {
 									</Form.Label>
 									<Form.Control type="text" placeholder="Post Code" 
 										name="postCode" onChange={this.onChange} 
-										value={this.state.postCode} />
+										value={this.state.postCode} required />
 									<Form.Text className="text-muted">
 										We'll never share your email with anyone else.
 									</Form.Text>
@@ -73,12 +75,14 @@ export default class Login extends Component {
 									</Form.Label>
 									<Form.Control type="text" placeholder="Voting Code" 
 										name="userCode" onChange={this.onChange}
-										value={this.state.userCode} />
+										value={this.state.userCode} required />
 								</Form.Group>
 								<Button variant="primary" type="submit">
 									Log In
 								</Button>
 							</Form>
+
+							<RegisterModalButton />
 
 						</div>
 					</Col>
