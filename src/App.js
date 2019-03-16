@@ -7,6 +7,7 @@ import Login from "./components/Login";
 import ElectionsList from "./components/ElectionsList";
 import ElectionVote from "./components/ElectionVote";
 import ReactObserver from "react-event-observer";
+import allElectionsList from "./components/AllElectionsList";
 
 import "./App.css";
 import Audit from "./components/Audit";
@@ -23,7 +24,8 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <ProtectedRoute path="/elections" component={ElectionsList} />
             <ProtectedRoute path="/election/:name" component={ElectionVote} />
-            <ProtectedRoute path="/audit/:name" component={Audit} />
+            <ProtectedRoute path="/audit/all" component={allElectionsList} />
+            <ProtectedRoute path="/audit/election/:name" component={Audit} />
           </Container>
         </div>
       </Router>
