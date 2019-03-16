@@ -100,9 +100,14 @@ class FirstPastThePost extends VotingModel {
         console.log("const");
         console.log(this.winner.constituencies);
 
-        this.winner.name = "Undecided";
+        this.winner.name = "Hung Parliament";
       }
     });
+
+    console.log(parseFloat(this.constituencies.length * 0.5));
+    if (this.winner.constituencies < this.constituencies.length * 0.5) {
+      this.winner.name = "Hung Parliament";
+    }
 
     this.hasDone = true;
 
