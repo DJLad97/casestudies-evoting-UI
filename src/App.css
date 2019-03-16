@@ -37,3 +37,15 @@ a {
 	  transform: rotate(360deg);
 	}
   }
+
+.confirm-info {
+	text-align: center;
+}
+
+#confirm-header {
+	font-weight: 300;
+}
+
+.return-home-btn {
+	margin-top: 2em;
+}

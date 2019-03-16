@@ -57,19 +57,16 @@ export default class Login extends Component {
 						<div className="page-content-box">
 							<h1>Login</h1>
 							<Form onSubmit={this.handleSubmit}>
-								<Form.Group controlId="formBasicEmail">
+								<Form.Group controlId="formBasicPostcode">
 									<Form.Label>
 										Please enter the postcode (or your country's equivalent) you registered with:
 									</Form.Label>
 									<Form.Control type="text" placeholder="Post Code" 
 										name="postCode" onChange={this.onChange} 
-										value={this.state.postCode} required />
-									<Form.Text className="text-muted">
-										We'll never share your email with anyone else.
-									</Form.Text>
+										value={this.state.postCode} required/>
 								</Form.Group>
 
-								<Form.Group controlId="formBasicPassword">
+								<Form.Group controlId="formBasicVotingCode">
 									<Form.Label>
 										Please enter your unique voting code you received in the mail:
 									</Form.Label>
@@ -82,7 +79,7 @@ export default class Login extends Component {
 								</Button>
 							</Form>
 
-							<RegisterModalButton />
+							<RegisterModalButton/>
 
 						</div>
 					</Col>

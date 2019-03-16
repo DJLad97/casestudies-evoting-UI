@@ -29,6 +29,12 @@ const AuthClass = {
         return jwt_decode(token);
     },
 
+    getUserEndpoint() {
+        const token = AuthClass.getToken();
+        const userInfo = jwt_decode(token);
+        return userInfo.expectedEndpoint;
+    },
+
     logout() {
         localStorage.removeItem(TOKEN_KEY);
         AuthClass.setRequestHeader(false);
