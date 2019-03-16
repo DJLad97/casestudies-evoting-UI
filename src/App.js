@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { Container, Nav, ToggleButton } from 'react-bootstrap';
+import { Container, Nav, Button } from 'react-bootstrap';
 
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './components/Login';
 import ElectionsList from './components/ElectionsList';
 import ElectionVote from './components/ElectionVote';
 import VoteConfirmed from './components/VoteConfirmed';
+import Navbar from './components/Navbar';
 
 import './App.css';
 
@@ -15,12 +16,7 @@ class App extends Component {
     return (
 		<Router>
 			<div className="App">
-				<Nav activeKey="/home">
-					<Nav.Item>
-						<Nav.Link href="/home">Active</Nav.Link>
-						<ToggleButton>Test</ToggleButton>
-					</Nav.Item>
-				</Nav>
+				<Navbar/>
 				<Container>
 					<Route path="/login" component={Login}/>
 					<ProtectedRoute path="/elections" component={ElectionsList} />
