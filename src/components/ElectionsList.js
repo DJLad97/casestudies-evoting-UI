@@ -30,7 +30,6 @@ class ElectionsList extends Component {
                 this.setState({currentElections: res.data, loading: false});
 
             })
-        console.log(auth.getUserInfo());
     }
 
     renderElections = () => {
