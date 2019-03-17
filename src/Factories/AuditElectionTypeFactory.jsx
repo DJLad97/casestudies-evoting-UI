@@ -1,7 +1,7 @@
-import FirstPastThePost from "../components/VotingTypes/FirstPastThePost";
+import FirstPastThePost from "../components/AuditVotingTypes/FirstPastThePost";
 import React, { Component } from "react";
-import PreferentialVoting from "../components/VotingTypes/PreferentialVoting";
-import SingleTransferrableVote from "../components/VotingTypes/SingleTransferrableVote";
+import PreferentialVoting from "../components/AuditVotingTypes/PreferentialVoting";
+import SingleTransferrableVote from "../components/AuditVotingTypes/SingleTransferrableVote";
 
 export default class ElectionTypeFactory {
   static build(data) {

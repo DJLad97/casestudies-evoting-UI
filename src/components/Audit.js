@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Factory from "../Factories/ElectionTypeFactory";
+import Factory from "../Factories/AuditElectionTypeFactory";
 
 class Audit extends Component {
   constructor(props) {
