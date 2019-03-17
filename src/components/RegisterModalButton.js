@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Modal from 'react-bootstrap/Modal';
+import { Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import userAPI from '../utils/userAPI';
 import CountryDropdown from './CountryDropdown';
@@ -32,43 +32,11 @@ class RegisterModalButton extends Component {
 
         this.getRegisterForm = this.getRegisterForm.bind(this);
 
-        this.handleFirstName = this.handleFirstName.bind(this);
-        this.handleLastName = this.handleLastName.bind(this);
-        this.handlePostCode = this.handlePostCode.bind(this);
-        this.handleCountryId = this.handleCountryId.bind(this);
-        this.handleNationality = this.handleNationality.bind(this);
-        this.handleDOB = this.handleDOB.bind(this);
-        this.handleAddress = this.handleAddress.bind(this);
-
         this.submitNewUser = this.submitNewUser.bind(this);
     }
 
-    handleFirstName(event){
-        this.setState({firstName: event.target.value});
-    }
-
-    handleLastName(event){
-        this.setState({lastName: event.target.value});
-    }
-
-    handlePostCode(event) {
-        this.setState({postCode: event.target.value});
-    }
-
-    handleCountryId(event) {
-        this.setState({countryId: event.target.value});
-    }
-
-    handleNationality(event) {
-        this.setState({nationality: event.target.value});
-    }
-
-    handleDOB(event) {
-        this.setState({dateOfBirth: event.target.value});
-    }
-
-    handleAddress(event) {
-        this.setState({fullAddress: event.target.value});
+    onChange = (e) => {
+        this.setState({[e.target.name]: e.target.value})
     }
 
     submitNewUser(event) {
@@ -104,12 +72,12 @@ class RegisterModalButton extends Component {
         }
         if (this.state.countryId == "" || this.state.countryId == null)
         {
-            alert("Description is a required field!");
+            alert("Country is a required field!");
             return;
         }
         if (this.state.nationality == "" || this.state.nationality == null)
         {
-            alert("File Size is a required field!");
+            alert("Nationality is a required field!");
             return;
         }
         if (_getAge(this.state.dateOfBirth) < 18)
@@ -142,7 +110,7 @@ class RegisterModalButton extends Component {
             }
             else
                 alert("Something went wrong, please try again later");
-        })
+        });
     }
 
     openModal() {
@@ -171,28 +139,65 @@ class RegisterModalButton extends Component {
                 <form onSubmit={this.submitNewUser}>
                 <p>(* indicates a required field)</p>
 
-                    <h5>First Name: *</h5>
-                    <input name='FirstName' value={this.state.firstName} onChange={this.handleFirstName} required />
+                    <Form.Group>
+                        <Form.Label>
+                            First Name: *
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="First Name" 
+                            name="firstName" onChange={this.onChange} 
+                            value={this.state.firstName} required/>
+                    </Form.Group>
+                    <Form.Group>
+                        <Form.Label>
+                            Last Name: *
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Last Name" 
+                            name="lastName" onChange={this.onChange} 
+                            value={this.state.lastName} required/>
+                    </Form.Group>
 
-                    <h5>Last Name: *</h5>
-                    <input name='LastName' value={this.state.lastName} onChange={this.handleLastName} required />
+                    <Form.Group>
+                        <Form.Label>
+                            Postcode: *
+                        </Form.Label>
+                        <Form.Control type="text" placeholder="Postcode" 
+                            name="postCode" onChange={this.onChange} 
+                            value={this.state.postCode} required/>
+                    </Form.Group>
 
-                    <h5>Postcode: *</h5>
-                    <input name='Postcode' value={this.state.postCode} onChange={this.handlePostCode} required />
+                    <Form.Group>
+                        <Form.Label>
+                        Country: *
+                        </Form.Label>
+                        <CountryDropdown value={this.state.countryId} onChange={this.onChange} required={true}/>
 
-                    <h5>Country: *</h5>
-                    {/* <input name='Country' value={this.state.countryId} onChange={this.handleCountryId} required /> */}
-                    <CountryDropdown value={this.state.countryId} onChange={this.handleCountryId} required={true}/>
+                    </Form.Group>
 
-                    <h5>Nationality: *</h5>
-                    {/* <input name='Nationality' value={this.state.nationality} onChange={this.handleNationality} required /> */}
-                    <NationalityDropdown value={this.state.nationality} onChange={this.handleNationality} required={true} />
+                    <Form.Group>
+                        <Form.Label>
+                        Nationality: *
+                        </Form.Label>
+                        <NationalityDropdown value={this.state.nationality} onChange={this.onChange} required={true}/>
 
-                    <h5>Date of Birth *</h5>
-                    <input name='dob' type="date" value={this.state.dateOfBirth} onChange={this.handleDOB} required />
+                    </Form.Group>
 
-                    <h5>Full Address: *</h5>
-                    <input name='Full Address' value={this.state.fullAddress} onChange={this.handleAddress} required />
+                    <Form.Group>
+                        <Form.Label>
+                            Date of Birth: *
+                        </Form.Label>
+                        <Form.Control type="date" 
+                            name="dateOfBirth" onChange={this.onChange} 
+                            value={this.state.dateOfBirth} required/>
+                    </Form.Group>
+
+                    <Form.Group>
+                        <Form.Label>
+                            Full Address: *
+                        </Form.Label>
+                        <Form.Control type="text" 
+                            name="fullAddress" onChange={this.onChange} 
+                            value={this.state.fullAddress} required/>
+                    </Form.Group>
                     <hr />
 
                     <input type="submit" className="btn btn-info" value="Register to vote"/>
@@ -205,7 +210,7 @@ class RegisterModalButton extends Component {
         return (
         <div className="">
 
-            <button type="button" className="btn btn-success" data-toggle="modal" data-target="registerModal" onClick={this.openModal}>
+            <button type="button" id="register-btn" className="btn btn-success" data-toggle="modal" data-target="registerModal" onClick={this.openModal}>
                 Or Register To Vote 
             </button>
             <Modal show={this.state.modalIsOpen} onHide={this.closeModal}>
