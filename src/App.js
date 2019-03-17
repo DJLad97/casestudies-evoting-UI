@@ -27,10 +27,12 @@ class App extends Component {
 				<div className="App">
 					<Navbar/>
 					<Container>
+						{/* Must be present on all pages */}
+						<Redirector />
 						{
 							!auth.getInstance().isAuthenticated() &&
 							<div>
-								<Redirector />
+								
 								<Redirect from="/" to="login" />
 							</div> 
 						}

@@ -17,6 +17,7 @@ class Redirector extends Component {
     }
     
     navigateTo(msg, data) {
+      console.log(data);
 		  this.props.history.push(data);
     }
     
