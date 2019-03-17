@@ -3,11 +3,17 @@ import isEmpty from 'is-empty';
 import axios from 'axios';
 
 const TOKEN_KEY = 'jwtToken';
+const CONS_TOKEN_KEY = 'secondjwtToken';
 
 const AuthClass = { 
     setToken(token) {
         localStorage.setItem(TOKEN_KEY, token);
         this.setRequestHeader(token);
+    },
+
+    setConstiuencyToken(token) {
+        localStorage.setItem(CONS_TOKEN_KEY, token);
+        this.setConstieuencyRequestHeader(token);
     },
 
     setRequestHeader(token) {
@@ -20,8 +26,22 @@ const AuthClass = {
         }
     },
 
+    setConstieuencyRequestHeader(token) {
+        if(token) {
+            axios.defaults.headers.common['x-access-token2'] = token;
+            // axios.defaults.headers.common['Authorization'] = token;
+        }
+        else{ 
+            delete axios.defaults.headers.common['x-access-token2'];
+        }
+    },
+
     getToken() {
         return localStorage.getItem(TOKEN_KEY)
+    },
+
+    getConsToken() {
+        return localStorage.getItem(CONS_TOKEN_KEY)
     },
 
     getUserInfo() {
@@ -31,7 +51,9 @@ const AuthClass = {
 
     logout() {
         localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem(CONS_TOKEN_KEY);
         AuthClass.setRequestHeader(false);
+        AuthClass.setConstieuencyRequestHeader(false);
         // this.isAuthenticated = false;
     },
 

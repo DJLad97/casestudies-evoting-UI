@@ -42,7 +42,20 @@ export default class Login extends Component {
 			.then((res) => {
 				const token = res.data;
 				auth.getInstance().setToken(token);
-				PubSub.publish('navigation', '/elections');
+
+				var userInfo = auth.getInstance().getUserInfo();
+
+				axios.post(userInfo.expectedEndpoint+"/elections/login", loginData)
+				.then((newRes) => {
+					const endpointToken = newRes.data;
+					auth.getInstance().setConstiuencyToken(endpointToken);
+
+					PubSub.publish('navigation', '/elections');
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+
 			})
 			.catch((err) => {
 				console.log(err);

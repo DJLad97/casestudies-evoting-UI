@@ -25,13 +25,16 @@ class ElectionsList extends Component {
   componentDidMount() {
     const headers = {
       headers: {
-        "x-access-token": auth.getInstance().getToken()
+        "x-access-token": auth.getInstance().getToken(),
+        "x-access-token2": auth.getInstance().getConsToken(),
       }
     };
     // console.log(axios.defaults.headers);
+    let baseurl = auth.getInstance().getUserInfo().expectedEndpoint;
+
     axios
       .get(
-        "http://evoting-voting2-evoting-endpoint.1d35.starter-us-east-1.openshiftapps.com/elections/current",
+        baseurl+"/elections/current",
         headers
       )
       .then(res => {
