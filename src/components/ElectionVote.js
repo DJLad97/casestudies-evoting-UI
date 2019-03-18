@@ -70,7 +70,8 @@ class ElectionVote extends Component {
         const endpoint = auth.getUserEndpoint();
         const headers = {
             headers: {
-                'x-access-token': auth.getToken()
+                'x-access-token': auth.getToken(),
+                "x-access-token2": auth.getInstance().getConsToken()
             }
         }
         axios.post(endpoint + '/elections/vote', voteInfo, headers)
