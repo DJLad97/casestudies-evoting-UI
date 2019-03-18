@@ -15,7 +15,7 @@ var assert = require("assert");
       .findElement(By.name("userCode"))
       .sendKeys("b3b34acfbd88b79e721ba26c4fe6646c799f91fd");
     await sleep(1000);
-    await driver.findElement(By.name("btnCreate")).click();
+    await driver.findElement(By.name("btnLogin")).click();
     await sleep(1000);
     let CurrentURL = await driver.getCurrentUrl();
     assert(CurrentURL == "http://localhost:3000/elections");
