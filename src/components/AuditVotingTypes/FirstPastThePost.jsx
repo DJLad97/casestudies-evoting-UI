@@ -14,7 +14,10 @@ class FirstPastThePost extends VotingModel {
     this.hasDone = false;
   }
 
+  componentWillMount() {}
+
   render() {
+    super.authenticate();
     return (
       <Col md={{ offset: 2, span: 8 }}>
         <h1>{this.state.election.electionName}</h1>
