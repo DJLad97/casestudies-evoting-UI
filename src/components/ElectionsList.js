@@ -60,7 +60,10 @@ class ElectionsList extends Component {
           <Button className="AsAuditor" variant="outline-dark">
             <Link
               key={index}
-              to={{ pathname: `/audit/${formattedName}`, state: { election } }}
+              to={{
+                pathname: `/audit/viewelection/${formattedName}`,
+                state: { election }
+              }}
             >
               {" "}
               View as Auditor
@@ -79,8 +82,21 @@ class ElectionsList extends Component {
         </h3>
         <Row>
           {this.renderElections()}
+
           <Col md={{ span: 8, offset: 2 }}>
             {this.state.loading && <div className="lds-dual-ring" />}
+            {!this.state.loading && (
+              <Button className="AsAuditor" variant="outline-dark">
+                <Link
+                  to={{
+                    pathname: `/audit/all`
+                  }}
+                >
+                  {" "}
+                  View all elections
+                </Link>
+              </Button>
+            )}
           </Col>
         </Row>
       </div>

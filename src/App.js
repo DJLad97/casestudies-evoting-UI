@@ -25,7 +25,10 @@ class App extends Component {
             <ProtectedRoute path="/elections" component={ElectionsList} />
             <ProtectedRoute path="/election/:name" component={ElectionVote} />
             <ProtectedRoute path="/audit/all" component={allElectionsList} />
-            <ProtectedRoute path="/audit/election/:name" component={Audit} />
+            <ProtectedRoute
+              path="/audit/viewelection/:name"
+              component={Audit}
+            />
           </Container>
         </div>
       </Router>

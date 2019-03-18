@@ -60,7 +60,10 @@ class AllElectionsList extends Component {
           <Button className="AsAuditor" variant="outline-dark">
             <Link
               key={index}
-              to={{ pathname: `/audit/${formattedName}`, state: { election } }}
+              to={{
+                pathname: `/audit/viewelection/${formattedName}`,
+                state: { election }
+              }}
             >
               {" "}
               View as Auditor
