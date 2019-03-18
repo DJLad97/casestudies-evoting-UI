@@ -1,0 +1,41 @@
+.candidate-container {
+    border: 1px solid #000;
+    width: 120%;
+    background-color: #fff;
+    border-radius: 0.25em;
+    margin-bottom: 1em;
+    padding-top: 0.2em;
+}
+
+.add-remove-btn {
+    vertical-align: text-bottom;
+    width: 30%;
+    margin-left: 0.5em;
+}
+
+.candidate-text {
+    display: inline-block;
+    margin-left: 1em;
+}
+
+.candidate-header {
+    text-align: center;
+    padding-bottom: 1em;
+}
+
+.vote {
+    margin: 0;
+    padding-left: 1em;
+    padding-top: 0.4em;
+    padding-bottom: 0.4em;
+}
+
+.vote-num {
+    vertical-align: text-bottom;
+    font-size: 2em;
+}
+
+.voted-candidated {
+    padding-left: 1em;
+    display: inline-block;
+}

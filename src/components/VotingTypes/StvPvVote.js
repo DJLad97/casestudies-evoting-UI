@@ -6,6 +6,8 @@ import isEmpty from 'is-empty';
 
 import ModalClass from '../ModalClass';
 import auth from '../../utils/auth';
+
+import '../../styles/stv-pv-vote.css';
 class StvPvVote extends Component {
     constructor(props) {
         super(props);
@@ -26,25 +28,21 @@ class StvPvVote extends Component {
         });
 
         return candidates;
-    }
-
-    handleSubmit = (e) => {
-       
     } 
 
     renderCandidates = () => {
 		return this.state.candidates.map((candidate, id) => {
             let button = '';
             if(!candidate.votedFor){
-                button = (<Button variant="primary" onClick={() => this.addToVote(candidate, id)}>Add</Button>);
+                button = (<Button className="add-remove-btn" variant="info" onClick={() => this.addToVote(candidate, id)}>Add</Button>);
             }
             else {
-                button = (<Button variant="primary" onClick={() => this.removeFromVote(candidate, id)}>Remove</Button>);
+                button = (<Button className="add-remove-btn" variant="info" onClick={() => this.removeFromVote(candidate, id)}>Remove</Button>);
             }
 			return (
-				<div key={id}>
+				<div className="candidate-container" key={id}>
 					{button}
-					<p>
+					<p className="candidate-text">
 						{candidate.candidateName}
 						<br/>
 						{candidate.party}
@@ -57,58 +55,62 @@ class StvPvVote extends Component {
 	renderVotes = () => {
 		return this.state.votes.map((candidate, id) => {
 			return (
-				<div key={id}>
-                    <h5>{id + 1}</h5>
+				<div className="candidate-container" key={id}>
+                    {/* <h5>{id + 1}</h5> */}
 					{/* <Button variant="primary" onClick={() => this.removeFromVote(candidate.candidateName, id)}>Remove</Button> */}
-					<p>
-						{candidate.candidateName}
-						<br/>
-						{candidate.party}
+					<p className="candidate-text vote">
+                        <span className="vote-num">{id + 1}.</span>
+                        <span className="voted-candidated"> 
+                            {candidate.candidateName}
+                            <br/>
+                            {candidate.party}
+                        </span>
 					</p>
 				</div>
 			)
-			// <div key={id}><Button variant="primary" onClick={() => this.removeFromVote(candidate, id)}>{candidate}</Button><br/></div>
 		});
 	}
 
 	addToVote = (candidate, id) => {
-        // alert(id);
 		let votes = this.state.votes;
 		let candidates = this.state.candidates;
         votes.push(this.state.candidates[id]);
         candidates[id].votedFor = true;
-		// let index = candidates.inde
-		// if (id > -1) {
-		// 	candidates.splice(id, 1);
-		// }
 		
 		this.setState({votes, candidates});
 	}
 
 	removeFromVote = (candidate, id) => {
-        // alert(id);
 		let votes = this.state.votes;
 		let candidates = this.state.candidates;
-        // candidates.push(this.state.votes[id]);
         candidates[id].votedFor = false;
-        
-		// let index = votes.indexOf(candidate);
-		// if (id > -1) {
-		// 	votes.splice(id, 1);
-        // }
+
         votes = votes.filter(function( obj ) {
             return obj._id !== candidate._id;
         });
 		
 		this.setState({votes, candidates});
-	}
+    }
+    
+    handleSubmit = (e) => {
+        e.preventDefault();
+        // if (isEmpty(this.state.votes)){
+        //     alert('Please select a candidate(s)');
+        //     return;
+        // }
+
+        const numCandidates = this.state.candidates.count();
+        alert(numCandidates);
+
+
+    }
 
     confirmVote = () => {
 
     }
     render() {
         // console.log(props.election)
-        console.log(this.state.votes);
+        console.log(this.state.candidates);
 
         return (
             <div>
@@ -133,11 +135,14 @@ class StvPvVote extends Component {
                                     </Alert>
                                 }
                             </Col> */}
-                            <Col md={2}></Col>
+                            {/* <Col md={2}></Col> */}
                             <Col md={4}>
+                                <h3 className="candidate-header">Candidates</h3>
                                 {this.renderCandidates()}
                             </Col>
+                            <Col md={2}></Col>
                             <Col md={4}>
+                                <h3 className="candidate-header">Votes</h3>
                                 {this.renderVotes()}
                             </Col>
                             <Col md={{ span: 8, offset: 2}}>
@@ -145,7 +150,7 @@ class StvPvVote extends Component {
                                     Submit Vote
                                 </Button>
                             </Col>
-                            <Col md={2}></Col>
+                            {/* <Col md={2}></Col> */}
                         </Row>
                         <Button variant="warning" className="spoil-btn">Spoil Ballot</Button>
                     </Form>

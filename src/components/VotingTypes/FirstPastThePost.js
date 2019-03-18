@@ -13,7 +13,6 @@ class FirstPastThePost extends Component {
         super(props);
         this.state = {
             election: props.election,
-            // election: this.props.location.state.election,
             selectedCandidate: '',
             error: '',
             showModal: false
@@ -71,7 +70,7 @@ class FirstPastThePost extends Component {
         const endpoint = auth.getUserEndpoint();
         const headers = {
             headers: {
-                'x-access-token': auth.getToken()
+                'x-access-token': auth.getInstance().getToken()
             }
         }
         axios.post(endpoint + '/elections/vote', voteInfo, headers)
