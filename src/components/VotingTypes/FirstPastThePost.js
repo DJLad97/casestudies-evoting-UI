@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import isEmpty from 'is-empty';
+import PubSub from 'pubsub-js'
 
 import ModalClass from '../ModalClass';
 import auth from '../../utils/auth';
@@ -64,23 +65,23 @@ class FirstPastThePost extends Component {
         let voteInfo = {
             electionId: this.state.election._id,
             candidateId: this.state.selectedCandidate,
-            consistuency: 'South Sheffield'
+            consistuency: auth.getInstance().getUserInfo().constiuenecyId
         }
 
-        const endpoint = auth.getUserEndpoint();
+        const endpoint = auth.getInstance().getUserEndpoint();
         const headers = {
             headers: {
-                'x-access-token': auth.getInstance().getToken()
-            }
+                "x-access-token": auth.getInstance().getToken(),
+                "x-access-token2": auth.getInstance().getConsToken(),
+              }
         }
+        
+        
         axios.post(endpoint + '/elections/vote', voteInfo, headers)
             .then((res) => {
                 axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers)
                 .then((res) => {
-                        this.props.history.push({
-                            pathname: '/vote-confirmed', 
-                            state: {electionName: this.state.election.electionName
-                        }});
+                        PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
                         console.log(res);
                     })
             })
