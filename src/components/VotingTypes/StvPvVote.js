@@ -37,7 +37,7 @@ class StvPvVote extends Component {
                 button = (<Button className="add-remove-btn" variant="info" onClick={() => this.addToVote(candidate, id)}>Add</Button>);
             }
             else {
-                button = (<Button className="add-remove-btn" variant="info" onClick={() => this.removeFromVote(candidate, id)}>Remove</Button>);
+                button = (<Button className="add-remove-btn" variant="danger" onClick={() => this.removeFromVote(candidate, id)}>Remove</Button>);
             }
 			return (
 				<div className="candidate-container" key={id}>
