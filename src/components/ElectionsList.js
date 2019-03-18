@@ -1,22 +1,16 @@
 import React, { Component } from "react";
 import axios from "axios";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Button from "react-bootstrap/Button";
-
-import { Link, Route } from "react-router-dom";
+import { Row, Button, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 import auth from "../utils/auth";
 import ElectionLink from "./ElectionLink";
-import ProtectedRoute from "./ProtectedRoute";
-import ElectionVote from "./ElectionVote";
 
 import "../styles/elections-list.css";
 
 class ElectionsList extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       currentElections: [],
       loading: true
@@ -26,20 +20,18 @@ class ElectionsList extends Component {
   componentDidMount() {
     const headers = {
       headers: {
-        "x-access-token": auth.getToken()
+        "x-access-token": auth.getInstance().getToken(),
+        "x-access-token2": auth.getInstance().getConsToken()
       }
     };
     // console.log(axios.defaults.headers);
-    axios
-      .get(
-        "http://evoting-voting2-evoting-endpoint.1d35.starter-us-east-1.openshiftapps.com/elections/current",
-        headers
-      )
-      .then(res => {
-        console.log(res);
-        this.setState({ currentElections: res.data, loading: false });
-      });
-    // console.log(auth.getUserInfo());
+    let baseurl = auth.getInstance().getUserInfo().expectedEndpoint;
+
+    axios.get(baseurl + "/elections/current", headers).then(res => {
+      // console.log(res);
+      this.setState({ currentElections: res.data, loading: false });
+    });
+    // console.log(auth.getInstance().getUserInfo());
   }
 
   renderElections = () => {
@@ -49,7 +41,7 @@ class ElectionsList extends Component {
         .replace(/-/g, "")
         .replace(/ /g, "-");
       return (
-        <React.Fragment>
+        <React.Fragment key={index}>
           <Link
             key={index}
             to={{ pathname: `/election/${formattedName}`, state: { election } }}
