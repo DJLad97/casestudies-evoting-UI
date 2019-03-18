@@ -60,17 +60,38 @@ class ElectionVote extends Component {
         })
     }
 
+    spoilBtn = () => {
+
+        const endpoint = auth.getInstance().getUserEndpoint();
+        const headers = {
+            headers: {
+                'x-access-token': auth.getInstance().getToken(),
+                "x-access-token2": auth.getInstance().getConsToken()
+            }
+        }
+
+        axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers)
+            .then((res) => {
+                this.props.history.push({
+                    pathname: '/vote-confirmed', 
+                    state: {electionName: this.state.election.electionName
+                }});
+                console.log(res);
+        })
+
+    }
+
     confirmVote = () => {
         let voteInfo = {
             electionId: this.state.election._id,
             candidateId: this.state.selectedCandidate,
-            consistuency: 'South Sheffield'
+            consistuency: auth.getInstance().getUserInfo().constiuenecyId
         }
 
-        const endpoint = auth.getUserEndpoint();
+        const endpoint = auth.getInstance().getUserEndpoint();
         const headers = {
             headers: {
-                'x-access-token': auth.getToken(),
+                'x-access-token': auth.getInstance().getToken(),
                 "x-access-token2": auth.getInstance().getConsToken()
             }
         }
@@ -121,7 +142,7 @@ class ElectionVote extends Component {
                                 </Button>
                             </Col>
                         </Row>
-                        <Button variant="warning" className="spoil-btn">Spoil Ballot</Button>
+                        <Button variant="warning" onClick={this.spoilBtn} className="spoil-btn">Spoil Ballot</Button>
                     </Form>
                 </div>
                 <ModalClass header="Confirm Vote" closeBtn="No" confirmBtn="Yes" 
