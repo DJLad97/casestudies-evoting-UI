@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Auth from "../../utils/auth";
+import PubSub from "pubsub-js";
 
 class VotingModel extends Component {
   constructor(props) {
@@ -7,6 +9,12 @@ class VotingModel extends Component {
   }
   render() {
     return <h1>gg</h1>;
+  }
+
+  authenticate() {
+    if (!Auth.getInstance().getUserInfo().isAuditor) {
+      PubSub.publish("navigation", "/elections");
+    }
   }
 
   returnFullTypeString(data) {
