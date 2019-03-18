@@ -44,8 +44,7 @@ class FirstPastThePost extends VotingModel {
     console.log(this.winners);
     return (
       <h1>
-        {this.getOverallWinner(this.winners).name +
-          this.getOverallWinner(this.winners).constituencies}
+        {this.getOverallWinner(this.winners)}
         {console.log(this.winner)}
       </h1>
     );
@@ -77,7 +76,7 @@ class FirstPastThePost extends VotingModel {
       } else {
         b[b.length - 1]++;
       }
-      prev = candidates[i];
+      prev = candidates[i].name;
     }
     if (this.hasDone) {
       return this.winner;
@@ -111,7 +110,21 @@ class FirstPastThePost extends VotingModel {
 
     this.hasDone = true;
 
-    return this.winner;
+    if (this.winner.name === "Hung Parliament") {
+      return (
+        <h1>
+          {this.winner.name} due to 2 or more candidates winning the same number
+          of constituencies
+        </h1>
+      );
+    } else {
+      return (
+        <h1>
+          {this.winner.name} wins with {this.winner.constituencies + ""}{" "}
+          constituencies!
+        </h1>
+      );
+    }
   }
 
   getConstituencyNumbers(votes) {
@@ -127,7 +140,7 @@ class FirstPastThePost extends VotingModel {
       } else {
         b[b.length - 1]++;
       }
-      prev = votes[i];
+      prev = votes[i].forConstiuency;
     }
 
     this.state.election.forConsituencies.map((consituency, index) => {
@@ -146,6 +159,12 @@ class FirstPastThePost extends VotingModel {
         {candidates.map((candidate, index) => {
           return (
             <h1>
+              <img
+                src={candidate.candidatePicture}
+                alt=""
+                width="150"
+                Height="150"
+              />
               {candidate.candidateName}:
               {console.log(this.getConstituencyNumbers(candidate.votes))}
               {this.assignConstituency(
@@ -165,6 +184,7 @@ class FirstPastThePost extends VotingModel {
                         constituency: value,
                         votes: this.votes[index]
                       })}
+
                       {value + " " + this.votes[index]}
                     </p>
                   );

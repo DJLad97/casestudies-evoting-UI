@@ -9,6 +9,7 @@ class Audit extends Component {
     };
   }
   render() {
+    console.log("In Audit.js");
     return (
       <div>
         {console.log(this.state.election)}

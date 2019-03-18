@@ -54,6 +54,7 @@ class ElectionsList extends Component {
 				<ElectionLink name={election.electionName} />
 				</Link>
 
+<<<<<<< HEAD
 				<Button className="AsAuditor" variant="outline-dark">
 				<Link
 					key={index}
@@ -83,6 +84,53 @@ class ElectionsList extends Component {
 		</div>
 	);
 	}
+=======
+          <Button className="AsAuditor" variant="outline-dark">
+            <Link
+              key={index}
+              to={{
+                pathname: `/audit/viewelection/${formattedName}`,
+                state: { election }
+              }}
+            >
+              {" "}
+              View as Auditor
+            </Link>
+          </Button>
+        </React.Fragment>
+      );
+    });
+  };
+
+  render() {
+    return (
+      <div className="page-content-box elections-list">
+        <h3 id="elections-list-header">
+          Please choose the election you wish to vote in
+        </h3>
+        <Row>
+          {this.renderElections()}
+
+          <Col md={{ span: 8, offset: 2 }}>
+            {this.state.loading && <div className="lds-dual-ring" />}
+            {!this.state.loading && (
+              <Button className="AsAuditor" variant="outline-dark">
+                <Link
+                  to={{
+                    pathname: `/audit/all`
+                  }}
+                >
+                  {" "}
+                  View all elections
+                </Link>
+              </Button>
+            )}
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+>>>>>>> AuditorBranch
 }
 
 export default ElectionsList;

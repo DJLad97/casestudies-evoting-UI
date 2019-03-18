@@ -5,7 +5,9 @@ import SingleTransferrableVote from "../components/VotingTypes/SingleTransferrab
 
 export default class ElectionTypeFactory {
   static build(data) {
+      console.log("Built Election")
     switch (data.electionType) {
+        
       case "FPTP":
         return <FirstPastThePost election={data} />;
       case "PV":
