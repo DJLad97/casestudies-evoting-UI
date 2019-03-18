@@ -3,6 +3,7 @@ import
  { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import isEmpty from 'is-empty';
+import PubSub from 'pubsub-js';
 
 import ModalClass from '../ModalClass';
 import auth from '../../utils/auth';
@@ -95,16 +96,73 @@ class StvPvVote extends Component {
 		this.setState({votes, candidates});
     }
     
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
-        // if (isEmpty(this.state.votes)){
-        //     alert('Please select a candidate(s)');
-        //     return;
-        // }
+        if (isEmpty(this.state.votes)){
+            alert('Please select a candidate(s)');
+            return;
+        }
 
-        const numCandidates = this.state.candidates.count();
-        alert(numCandidates);
+        // const maxVotes = this.state.candidates.length
+        let voteCount = this.state.candidates.length;
+        const endpoint = auth.getInstance().getUserEndpoint();
+        const headers = {
+            headers: {
+                "x-access-token": auth.getInstance().getToken(),
+                "x-access-token2": auth.getInstance().getConsToken(),
+              }
+        }
 
+        let votes = this.state.votes;
+
+        for (let i = 0; i < votes.length; i++)
+        {
+            let vote = votes[i];
+            console.log(`Started placing votes for ${vote.candidateName}`)
+            let voteInfo = {
+                electionId: this.state.election._id,
+                candidateId: vote.candidateId,
+                consistuency: auth.getInstance().getUserInfo().constiuenecyId
+            }
+
+            for(let i = 0; i < voteCount; i++){
+                console.log((i + 1) + ' vote for ' + vote.candidateName);
+                await axios.post(endpoint + '/elections/vote', voteInfo, headers)
+                    .then(res => {
+                        return axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers);
+                    });
+                console.log(`${i+1} votes for ${vote.candidateName}`);
+            }
+
+            voteCount -= 1;
+        }
+
+        // this.state.votes.forEach( (vote, index) => {
+        //     let voteInfo = {
+        //         electionId: this.state.election._id,
+        //         candidateId: vote.candidateId,
+        //         consistuency: auth.getInstance().getUserInfo().constiuenecyId
+        //     }
+
+
+
+        //     for(let i = 0; i < voteCount; i++){
+        //         console.log((i + 1) + ' vote for ' + vote.candidateName);
+        //         axios.post(endpoint + '/elections/vote', voteInfo, headers)
+        //             .then((res) => {
+        //                 console.log('vote counted');
+        //             })
+        //             .catch((err) => {
+        //                 console.log(err);
+        //             });
+        //     }
+
+        //     voteCount -= 1;
+        //}
+        //);
+
+
+        PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
 
     }
 
