@@ -61,16 +61,16 @@ class PreferentialVoting extends VotingModel {
   getWinner(candidates) {
     let votes = this.counts.sort((a, b) => {
       if (a.votes > b.votes) {
-        return 1;
+        return -1;
       }
       if (a.votes < b.votes) {
-        return -1;
+        return 1;
       }
       return 0;
     });
     console.log(votes);
     if (votes.filter(x => x.votes === votes[0].votes).length > 1) {
-      console.log();
+      console.log(votes.filter(x => x.votes === votes[0].votes).length > 1);
 
       return <h1>Tie</h1>;
     } else {

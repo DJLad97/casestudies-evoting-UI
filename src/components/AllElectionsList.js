@@ -26,20 +26,18 @@ class AllElectionsList extends Component {
   componentDidMount() {
     const headers = {
       headers: {
-        "x-access-token": auth.getToken()
+        "x-access-token": auth.getInstance().getToken(),
+        "x-access-token2": auth.getInstance().getConsToken()
       }
     };
     // console.log(axios.defaults.headers);
-    axios
-      .get(
-        "http://evoting-voting2-evoting-endpoint.1d35.starter-us-east-1.openshiftapps.com/elections",
-        headers
-      )
-      .then(res => {
-        console.log(res);
-        this.setState({ currentElections: res.data, loading: false });
-      });
-    // console.log(auth.getUserInfo());
+    let baseurl = auth.getInstance().getUserInfo().expectedEndpoint;
+
+    axios.get(baseurl + "/elections/current", headers).then(res => {
+      // console.log(res);
+      this.setState({ currentElections: res.data, loading: false });
+    });
+    // console.log(auth.getInstance().getUserInfo());
   }
 
   renderElections = () => {
