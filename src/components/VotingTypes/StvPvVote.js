@@ -47,6 +47,8 @@ class StvPvVote extends Component {
 						<br/>
 						{candidate.party}
 					</p>
+                    <img src={candidate.candidatePicture} className="candidate-image" height="60" width="60" />
+
 				</div>
 			)
 		});
@@ -66,6 +68,7 @@ class StvPvVote extends Component {
                             {candidate.party}
                         </span>
 					</p>
+                    <img src={candidate.candidatePicture} className="candidate-image" height="60" width="60" />
 				</div>
 			)
 		});

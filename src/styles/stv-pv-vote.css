@@ -18,6 +18,10 @@
     margin-left: 1em;
 }
 
+.candidate-image {
+    float: right;
+}
+
 .candidate-header {
     text-align: center;
     padding-bottom: 1em;

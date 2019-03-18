@@ -44,7 +44,10 @@ class FirstPastThePost extends Component {
                             {candidate.candidateName}<br/>
                             {candidate.party}
                         </label> */}
+                        
                         <label className="radio-container">
+                        <img src={candidate.candidatePicture} className="candidate-image" height="70" width="70" />
+
                             <p className="candidate-title">
                                 <strong>{candidate.candidateName}</strong>
                                 <br/>
@@ -53,6 +56,7 @@ class FirstPastThePost extends Component {
                             <input type="radio" checked={this.state.selectedCandidate === candidate.candidateId} 
                                 value={candidate.candidateId} onChange={this.handleChange} name="vote"/>
                             <span className="checkmark"></span>
+
                         </label>
                     </div>
                 </Col>
