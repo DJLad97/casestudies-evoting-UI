@@ -82,7 +82,11 @@ class ElectionsList extends Component {
           <Col md={{ span: 8, offset: 2 }}>
             {this.state.loading && <div className="lds-dual-ring" />}
             {!this.state.loading && this.isAuditor && (
-              <Button className="AsAuditor" variant="outline-dark">
+              <Button
+                name="btnViewAll"
+                className="AsAuditor"
+                variant="outline-dark"
+              >
                 <Link
                   to={{
                     pathname: `/audit/all`
