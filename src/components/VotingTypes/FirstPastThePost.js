@@ -47,7 +47,7 @@ class FirstPastThePost extends Component {
                         </label> */}
                         
                         <label className="radio-container">
-                        <img src={candidate.candidatePicture} className="candidate-image" height="70" width="70" />
+                        <img src={candidate.candidatePicture} alt={candidate.party} className="candidate-image" height="70" width="70" />
 
                             <p className="candidate-title">
                                 <strong>{candidate.candidateName}</strong>
@@ -70,17 +70,15 @@ class FirstPastThePost extends Component {
         const endpoint = auth.getInstance().getUserEndpoint();
         const headers = {
             headers: {
-                'x-access-token': auth.getInstance().getToken(),
+                "x-access-token": auth.getInstance().getToken(),
                 "x-access-token2": auth.getInstance().getConsToken()
             }
         }
 
         axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers)
             .then((res) => {
-                this.props.history.push({
-                    pathname: '/vote-confirmed', 
-                    state: {electionName: this.state.election.electionName
-                }});
+                PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
+
                 console.log(res);
         })
 
@@ -111,7 +109,7 @@ class FirstPastThePost extends Component {
                     })
             })
             .catch((err) => {
-                console.log(err);
+                console.log(err.response);
             });
 
     }
