@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import VotingModel from "./VotingModel";
 import Col from "react-bootstrap/Col";
+import "../../styles/Borders.scss";
+import "../../styles/text.scss";
 
 class FirstPastThePost extends VotingModel {
   constructor(props) {
@@ -16,14 +18,42 @@ class FirstPastThePost extends VotingModel {
 
   componentWillMount() {}
 
+  nice_ifyer(title, image, content) {
+    console.log(content);
+    return (
+      <div class="col-xl-12 col-md-12 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h4 font-weight-bold text-primary text-uppercase mb-1">
+                  {title}
+                </div>
+                <div class="h5 mb-0 font-weight-bold text-gray-300">
+                  {image}
+                </div>
+              </div>
+              <div class="col-auto text-gray-800 h5">
+                {typeof content === Array
+                  ? content.map((render, index) => {
+                      return render + " " + this.votes[index];
+                    })
+                  : content}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   render() {
     super.authenticate();
     return (
       <Col md={{ offset: 2, span: 8 }}>
-        <h1>{this.state.election.electionName}</h1>
+        {this.nice_ifyer(this.state.election.electionName, "")}
         {this.getConstituencyResults(this.state.election.candidates)}
-        {this.getWinner(this.state.election.candidates)}
-        {console.log(this.counts)}
+        {this.getWinner(this.state.election.candidates)})
       </Col>
     );
   }
@@ -71,7 +101,15 @@ class FirstPastThePost extends VotingModel {
       b = [],
       prev;
 
-    candidates.sort();
+    candidates = candidates.sort((a, b) => {
+      if (a.name > b.name) {
+        return 1;
+      }
+      if (a.name < b.name) {
+        return -1;
+      }
+      return 0;
+    });
     for (var i = 0; i < candidates.length; i++) {
       if (candidates[i].name !== prev) {
         a.push(candidates[i].name);
@@ -135,7 +173,15 @@ class FirstPastThePost extends VotingModel {
       b = [],
       prev;
 
-    votes.sort();
+    votes = votes.sort((a, b) => {
+      if (a.forConstiuency > b.forConstiuency) {
+        return -1;
+      }
+      if (a.forConstiuency > b.forConstiuency) {
+        return 1;
+      }
+      return 0;
+    });
     for (var i = 0; i < votes.length; i++) {
       if (votes[i].forConstiuency !== prev) {
         a.push(votes[i].forConstiuency);
@@ -156,19 +202,31 @@ class FirstPastThePost extends VotingModel {
     return [a, b];
   }
 
+  getOutputFormat(candidate) {
+    return this.constituencies.map((value, index) => {
+      return (
+        <p>
+          {console.log("im here")}
+          {console.log(value + this.votes[index])}
+          {this.pushToCount({
+            name: candidate.candidateName,
+            constituency: value,
+            votes: this.votes[index]
+          })}
+
+          {value + " " + this.votes[index]}
+        </p>
+      );
+    });
+  }
+
   getConstituencyResults(candidates) {
     return (
       <h1>
         {candidates.map((candidate, index) => {
+          console.log(this.getOutputFormat(candidate));
           return (
             <h1>
-              <img
-                src={candidate.candidatePicture}
-                alt=""
-                width="150"
-                Height="150"
-              />
-              {candidate.candidateName}:
               {console.log(this.getConstituencyNumbers(candidate.votes))}
               {this.assignConstituency(
                 this.getConstituencyNumbers(candidate.votes)[0]
@@ -177,7 +235,7 @@ class FirstPastThePost extends VotingModel {
                 this.getConstituencyNumbers(candidate.votes)[1]
               )}
               <h2>
-                {this.constituencies.map((value, index) => {
+                {/*this.constituencies.map((value, index) => {
                   return (
                     <p>
                       {console.log("im here")}
@@ -191,7 +249,17 @@ class FirstPastThePost extends VotingModel {
                       {value + " " + this.votes[index]}
                     </p>
                   );
-                })}
+                })*/}
+                {this.nice_ifyer(
+                  candidate.candidateName,
+                  <img
+                    src={candidate.candidatePicture}
+                    alt=""
+                    width="150"
+                    Height="150"
+                  />,
+                  <div>{this.getOutputFormat(candidate)}</div>
+                )}
               </h2>
               {console.log(this.constituencies)}
               {console.log(this.votes)}
