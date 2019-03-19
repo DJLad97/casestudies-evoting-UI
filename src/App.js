@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Container from "react-bootstrap/Container";
+
 import Redirector from "./utils/Redirector";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -51,4 +52,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App; 

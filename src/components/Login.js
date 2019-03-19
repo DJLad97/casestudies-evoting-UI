@@ -3,16 +3,16 @@ import PubSub from 'pubsub-js'
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios'
 import isEmpty from 'is-empty';
-
+import { translate, Trans } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import RegisterModalButton from './RegisterModalButton';
 import auth from '../utils/auth';
-
 import "../styles/login.css";
 
-export default class Login extends Component {
+
+class Login extends Component {
 	constructor(props) {
 		super(props);
-		
 		this.state = {
 			postCode: '',
 			userCode: '',
@@ -77,12 +77,13 @@ export default class Login extends Component {
 	}
 	
 	render() {
+		const { t } = this.props
 		return (
 			<div id="login-container">
 				<Row>
 					<Col md={{ span: 8, offset: 2}}>
 						<div className="page-content-box">
-							<h1>Login</h1>
+							<h1>{t('login')}</h1>
 							{
 								(!isEmpty(this.state.error)) && 
 								<Alert variant="danger">
@@ -94,23 +95,27 @@ export default class Login extends Component {
 							<Form onSubmit={this.handleSubmit}>
 								<Form.Group controlId="formBasicPostcode">
 									<Form.Label>
-										Please enter the postcode (or your country's equivalent) you registered with:
+										{/* Please enter the postcode (or your country's equivalent) you registered with: */}
+										{t('postCodeDesc')}
 									</Form.Label>
-									<Form.Control type="text" placeholder="Post Code" 
+
+									<Form.Control type="text" placeholder={t('postCode')}
 										name="postCode" onChange={this.onChange} 
 										value={this.state.postCode} required/>
+									
 								</Form.Group>
 
 								<Form.Group controlId="formBasicVotingCode">
 									<Form.Label>
-										Please enter your unique voting code you received in the mail:
+										{/* Please enter your unique voting code you received in the mail: */}
+										{t('votingCodeDesc')}
 									</Form.Label>
-									<Form.Control type="text" placeholder="Voting Code" 
+									<Form.Control type="text" placeholder={t('votingCode')}
 										name="userCode" onChange={this.onChange}
 										value={this.state.userCode} />
 								</Form.Group>
 								<Button variant="primary" type="submit">
-									Log In
+									{t('login')}
 								</Button>
 								<RegisterModalButton />
 							</Form>
@@ -121,3 +126,7 @@ export default class Login extends Component {
     );
   }
 }
+
+// export default translate('common')(Login);
+export default withTranslation()(Login);
+

@@ -3,6 +3,7 @@ import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import isEmpty from 'is-empty';
 import PubSub from 'pubsub-js'
+import { withTranslation } from 'react-i18next';
 
 import ModalClass from '../ModalClass';
 import auth from '../../utils/auth';
@@ -27,8 +28,9 @@ class FirstPastThePost extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        const { t } = this.props;
         if(isEmpty(this.state.selectedCandidate)){
-            this.setState({error: 'Please Select a Candidate!'});
+            this.setState({error: t('selectCandidate')});
         }
         else{
             this.setState({error: '', showModal: true});
@@ -116,14 +118,18 @@ class FirstPastThePost extends Component {
 
     render() {
         // console.log(props.election)
+        const { t } = this.props;
         return (
             <div>
                 <div className="page-content-box">
                     <h2 id="election-name">{this.state.election.electionName}</h2>
                     <h4 id="instructions">
-                        Please click on the candidate you wish to vote for
+                        {/* Please click on the candidate you wish to vote for */}
+                        {/* <br/> */}
+                        {/* You will only be able to choose one candidate */}
+                        {t('fptpDescLine1')}
                         <br/>
-                        You will only be able to choose one candidate
+                        {t('fptpDescLine2')}
                     </h4>
                     {/* {this.props.location.state.} */}
                     <Form onSubmit={this.handleSubmit}>
@@ -142,23 +148,26 @@ class FirstPastThePost extends Component {
                             {this.renderCandidates()}
                             <Col md={{ span: 8, offset: 2}}>
                                 <Button variant="primary" size="lg" className="submit-vote" type="submit" block>
-                                    Submit Vote
+                                    {t('submitVote')}
                                 </Button>
                             </Col>
                         </Row>
-                        <Button variant="warning" onClick={this.spoilBtn} className="spoil-btn">Spoil Ballot</Button>
+                        <Button variant="warning" onClick={this.spoilBtn} className="spoil-btn">{t('spoilBallot')}</Button>
                     </Form>
                 </div>
-                <ModalClass header="Confirm Vote" closeBtn="No" confirmBtn="Yes" 
+                <ModalClass header={t('confirmVote')} closeBtn="No" confirmBtn="Yes" 
                             show={this.state.showModal} handleConfirm={this.confirmVote} 
                             handleClose={() => this.setState({showModal: false})}>
                     <p className="modal-body">
-                        You have selected to vote for: 
+                        {/* You have selected to vote for:  */}
+                        {t('voteSelect')}
                         <br/>
                         <strong>{this.state.selectedCandidate}</strong>
                         <br/>
                         <br/>
-                        Is this your choice?
+                        {/* Is this your choice? */}
+                        {t('voteFinalise')}
+
                     </p>
                 </ModalClass>
             </div>
@@ -166,4 +175,4 @@ class FirstPastThePost extends Component {
     }
 }
 
-export default FirstPastThePost;
+export default withTranslation()(FirstPastThePost);

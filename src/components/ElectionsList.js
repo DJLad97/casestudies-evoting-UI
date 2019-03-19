@@ -3,6 +3,7 @@ import axios from "axios";
 import { Row, Button, Col, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import isEmpty from "is-empty";
+import { useTranslation, withTranslation, Translation } from "react-i18next";
 
 import auth from "../utils/auth";
 import ElectionLink from "./ElectionLink";
@@ -73,10 +74,12 @@ class ElectionsList extends Component {
   };
 
   render() {
+	const { t } = this.props;
 	return (
 		<div className="page-content-box elections-list">
 			<h3 id="elections-list-header">
-				Please choose the election you wish to vote in
+				{/* Please choose the election you wish to vote in */}
+				{t('electionHeader')}
 			</h3>
 			<Row>
 				<Col md={{ span: 8, offset: 2 }}>
@@ -84,7 +87,7 @@ class ElectionsList extends Component {
 				{
 					(isEmpty(this.state.currentElections) && !this.state.loading) && 
 					<Alert variant="warning">
-						<p>No elections available!</p>
+						<p>{t('noElections')}</p>
 					</Alert>
 				}
 				</Col>
@@ -111,4 +114,4 @@ class ElectionsList extends Component {
   }
 }
 
-export default ElectionsList;
+export default withTranslation()(ElectionsList);
