@@ -25,6 +25,35 @@ class PreferentialVoting extends VotingModel {
     );
   }
 
+  nice_ifyer(title, image, content) {
+    console.log(content);
+    return (
+      <div class="col-xl-12 col-md-12 mb-4">
+        <div class="card border-left-primary shadow h-100 py-2">
+          <div class="card-body">
+            <div class="row no-gutters align-items-center">
+              <div class="col mr-2">
+                <div class="h4 font-weight-bold text-primary text-uppercase mb-1">
+                  {title}
+                </div>
+                <div class="h5 mb-0 font-weight-bold text-gray-300">
+                  {image}
+                </div>
+              </div>
+              <div class="col-auto text-gray-800 h5">
+                {typeof content === Array
+                  ? content.map((render, index) => {
+                      return render + " " + this.votes[index];
+                    })
+                  : content}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   getResults(candidates) {
     console.log(this.state.election);
     candidates.map((candidate, index) => {
@@ -39,16 +68,15 @@ class PreferentialVoting extends VotingModel {
       <h1>
         {candidates.map((candidate, index) => {
           console.log(candidate);
-          return (
-            <h1>
-              <img
-                src={candidate.candidatePicture}
-                alt=""
-                width="150"
-                Height="150"
-              />
-              {candidate.candidateName}: {candidate.votes.length}
-            </h1>
+          return this.nice_ifyer(
+            candidate.candidateName,
+            <img
+              src={candidate.candidatePicture}
+              alt=""
+              width="150"
+              Height="150"
+            />,
+            candidate.votes.length + " Votes"
           );
         })}
       </h1>
