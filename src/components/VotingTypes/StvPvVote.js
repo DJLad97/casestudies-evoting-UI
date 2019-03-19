@@ -135,10 +135,7 @@ class StvPvVote extends Component {
 
             for(let i = 0; i < voteCount; i++){
                 console.log((i + 1) + ' vote for ' + vote.candidateName);
-                await axios.post(endpoint + '/elections/vote', voteInfo, headers)
-                    .then(res => {
-                        return axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers);
-                    });
+                await axios.post(endpoint + '/elections/vote', voteInfo, headers);
                 console.log(`${i+1} votes for ${vote.candidateName}`);
             }
 
@@ -147,6 +144,7 @@ class StvPvVote extends Component {
         this.setState({error: ''});
         this.setState({submittingVotes: false})
     
+        await axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers);
         PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
     }
     render() {

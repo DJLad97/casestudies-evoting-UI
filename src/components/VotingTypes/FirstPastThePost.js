@@ -84,7 +84,7 @@ class FirstPastThePost extends Component {
 
     }
 
-    confirmVote = () => {
+    confirmVote = async () => {
         let voteInfo = {
             electionId: this.state.election._id,
             candidateId: this.state.selectedCandidate,
@@ -100,17 +100,10 @@ class FirstPastThePost extends Component {
         }
         
         
-        axios.post(endpoint + '/elections/vote', voteInfo, headers)
-            .then((res) => {
-                axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers)
-                .then((res) => {
-                        PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
-                        console.log(res);
-                    })
-            })
-            .catch((err) => {
-                console.log(err.response);
-            });
+        await axios.post(endpoint + '/elections/vote', voteInfo, headers);
+        await axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers);
+        PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
+        console.log('Done');
 
     }
 
