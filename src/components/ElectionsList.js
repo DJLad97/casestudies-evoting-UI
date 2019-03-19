@@ -16,6 +16,7 @@ class ElectionsList extends Component {
       currentElections: [],
       loading: true
     };
+    this.isAuditor = false;
   }
 
   componentDidMount() {
@@ -27,7 +28,8 @@ class ElectionsList extends Component {
     };
     // console.log(axios.defaults.headers);
     let baseurl = auth.getInstance().getUserInfo().expectedEndpoint;
-
+    this.isAuditor = auth.getInstance().getUserInfo().isAuditor;
+    console.log(this.isAuditor);
     axios.get(baseurl + "/elections/current", headers).then(res => {
       // console.log(res);
       this.setState({ currentElections: res.data, loading: false });
@@ -51,18 +53,20 @@ class ElectionsList extends Component {
             <ElectionLink name={election.electionName} />
           </Link>
 
-          <Button className="AsAuditor" variant="outline-dark">
-            <Link
-              key={index}
-              to={{
-                pathname: `/audit/viewelection/${formattedName}`,
-                state: { election }
-              }}
-            >
-              {" "}
-              View as Auditor
-            </Link>
-          </Button>
+          {this.isAuditor && (
+            <Button className="AsAuditor" variant="outline-dark">
+              <Link
+                key={index}
+                to={{
+                  pathname: `/audit/viewelection/${formattedName}`,
+                  state: { election }
+                }}
+              >
+                {" "}
+                View as Auditor
+              </Link>
+            </Button>
+          )}
         </React.Fragment>
       );
     });
@@ -88,7 +92,7 @@ class ElectionsList extends Component {
 
 				<Col md={{ span: 8, offset: 2 }}>
 					{this.state.loading && <div className="lds-dual-ring" />}
-					{!this.state.loading && (
+					{(!this.state.loading && this.isAuditor) && (
 						<Button className="AsAuditor" variant="outline-dark">
 						<Link
 							to={{

@@ -7,7 +7,7 @@ import isEmpty from 'is-empty';
 import RegisterModalButton from './RegisterModalButton';
 import auth from '../utils/auth';
 
-import '../styles/login.css';
+import "../styles/login.css";
 
 export default class Login extends Component {
 	constructor(props) {
@@ -18,17 +18,13 @@ export default class Login extends Component {
 			userCode: '',
 			errors: []
 		}
-	}
+  }
 
-	componentDidMount(){
-		if(auth.getInstance().isAuthenticated()){
-			PubSub.publish('navigation', '/elections');
-		}
-	}
-
-	onChange = (e) => {
-		this.setState({[e.target.name]: e.target.value});
-	}
+  componentDidMount() {
+    if (auth.getInstance().isAuthenticated()) {
+      PubSub.publish("navigation", "/elections");
+    }
+  }
 
 	handleSubmit = (e) => {
 		e.preventDefault();
@@ -112,14 +108,12 @@ export default class Login extends Component {
 								<Button variant="primary" type="submit">
 									Log In
 								</Button>
+								<RegisterModalButton />
 							</Form>
-
-							<RegisterModalButton/>
-
 						</div>
 					</Col>
 				</Row>
-			</div>
-		)
-	}
+      	</div>
+    );
+  }
 }
