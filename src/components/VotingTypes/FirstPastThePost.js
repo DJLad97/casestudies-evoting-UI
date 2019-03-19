@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
 import axios from 'axios';
 import isEmpty from 'is-empty';
+import PubSub from 'pubsub-js'
 
 import ModalClass from '../ModalClass';
 import auth from '../../utils/auth';
@@ -44,7 +45,10 @@ class FirstPastThePost extends Component {
                             {candidate.candidateName}<br/>
                             {candidate.party}
                         </label> */}
+                        
                         <label className="radio-container">
+                        <img src={candidate.candidatePicture} className="candidate-image" height="70" width="70" />
+
                             <p className="candidate-title">
                                 <strong>{candidate.candidateName}</strong>
                                 <br/>
@@ -53,6 +57,7 @@ class FirstPastThePost extends Component {
                             <input type="radio" checked={this.state.selectedCandidate === candidate.candidateId} 
                                 value={candidate.candidateId} onChange={this.handleChange} name="vote"/>
                             <span className="checkmark"></span>
+
                         </label>
                     </div>
                 </Col>
@@ -91,18 +96,17 @@ class FirstPastThePost extends Component {
         const endpoint = auth.getInstance().getUserEndpoint();
         const headers = {
             headers: {
-                'x-access-token': auth.getInstance().getToken(),
-                "x-access-token2": auth.getInstance().getConsToken()
-            }
+                "x-access-token": auth.getInstance().getToken(),
+                "x-access-token2": auth.getInstance().getConsToken(),
+              }
         }
+        
+        
         axios.post(endpoint + '/elections/vote', voteInfo, headers)
             .then((res) => {
                 axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers)
                 .then((res) => {
-                        this.props.history.push({
-                            pathname: '/vote-confirmed', 
-                            state: {electionName: this.state.election.electionName
-                        }});
+                        PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
                         console.log(res);
                     })
             })

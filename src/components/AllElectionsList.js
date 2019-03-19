@@ -3,6 +3,7 @@ import axios from "axios";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
+import PubSub from "pubsub-js";
 
 import { Link, Route } from "react-router-dom";
 
@@ -24,6 +25,9 @@ class AllElectionsList extends Component {
   }
 
   componentDidMount() {
+    if (!auth.getInstance().getUserInfo().isAuditor) {
+      PubSub.publish("navigation", "/elections");
+    }
     const headers = {
       headers: {
         "x-access-token": auth.getInstance().getToken(),
@@ -33,15 +37,10 @@ class AllElectionsList extends Component {
     // console.log(axios.defaults.headers);
     let baseurl = auth.getInstance().getUserInfo().expectedEndpoint;
 
-    axios
-      .get(
-        baseurl + "/elections/current",
-        headers
-      )
-      .then(res => {
-        console.log(res);
-        this.setState({ currentElections: res.data, loading: false });
-      });
+    axios.get(baseurl + "/elections", headers).then(res => {
+      console.log(res);
+      this.setState({ currentElections: res.data, loading: false });
+    });
     // console.log(auth.getUserInfo());
   }
 

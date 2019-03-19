@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom'
 
 const VoteConfirmed = (props) => {
-    const electionName = props.location.state.electionName
+    const electionName = props.match.params.name;
     return (
         <div className="page-content-box confirm-info">
             <h2 id="confirm-header">Your vote for <strong>{electionName}</strong> has been submitted</h2>
