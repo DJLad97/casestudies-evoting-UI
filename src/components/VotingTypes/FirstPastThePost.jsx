@@ -3,6 +3,7 @@ import VotingModel from "./VotingModel";
 import Col from "react-bootstrap/Col";
 import "../../styles/Borders.scss";
 import "../../styles/text.scss";
+import ChartFactory from "../../Factories/ChartFactory";
 
 class FirstPastThePost extends VotingModel {
   constructor(props) {
@@ -16,8 +17,10 @@ class FirstPastThePost extends VotingModel {
     this.hasDone = false;
   }
 
+  //first past the post = most constituencies won
   componentWillMount() {}
 
+  //renders a card with nice formatting
   nice_ifyer(title, image, content) {
     console.log(content);
     return (
@@ -53,11 +56,21 @@ class FirstPastThePost extends VotingModel {
       <Col md={{ offset: 2, span: 8 }}>
         {this.nice_ifyer(this.state.election.electionName, "")}
         {this.getConstituencyResults(this.state.election.candidates)}
-        {this.getWinner(this.state.election.candidates)})
+        {this.getWinner(this.state.election.candidates)}
+
+        {this.nice_ifyer(
+          "Winning Number of Votes by Constituency",
+          ChartFactory.build({
+            ChartType: "PIE",
+            data: { data: this.winners, name: "constituency", datakey: "votes" }
+          }),
+          ""
+        )}
       </Col>
     );
   }
 
+  //orders constituencies by amount of "winners" returns undecided if there are two matching ones
   getWinner(candidates) {
     this.constituencies.map((constituency, index) => {
       this.winners.push(
@@ -75,6 +88,7 @@ class FirstPastThePost extends VotingModel {
       );
     });
     console.log(this.winners);
+    //then returns a new element to render using the result of get overallwinner
     return (
       <h1>
         {this.getOverallWinner(this.winners)}
@@ -83,19 +97,23 @@ class FirstPastThePost extends VotingModel {
     );
   }
 
+  //react goes in a loop somethimes when not done like this
   assignConstituency(value) {
     this.constituencies = value;
     console.log(this.constituencies);
   }
 
+  //react goes in a loop somethimes when not done like this
   assignVotes(value) {
     this.votes = value;
   }
 
+  //react goes in a loop somethimes when not done like this
   pushToCount(obj) {
     this.counts.push(obj);
   }
 
+  //orders constituencies by candidate name and finds amount of candidate name occurences then returns the winner
   getOverallWinner(candidates) {
     var a = [],
       b = [],
@@ -167,7 +185,7 @@ class FirstPastThePost extends VotingModel {
       );
     }
   }
-
+  //finds occurences of constiuencies within a given votes array
   getConstituencyNumbers(votes) {
     var a = [],
       b = [],
@@ -202,6 +220,7 @@ class FirstPastThePost extends VotingModel {
     return [a, b];
   }
 
+  //get a formatted element from a given candidate for use in nice_ify
   getOutputFormat(candidate) {
     return this.constituencies.map((value, index) => {
       return (
@@ -219,7 +238,7 @@ class FirstPastThePost extends VotingModel {
       );
     });
   }
-
+  //returns a nice_ify object containing the results for each candidate
   getConstituencyResults(candidates) {
     return (
       <h1>
