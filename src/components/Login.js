@@ -20,11 +20,15 @@ export default class Login extends Component {
 		}
   }
 
-  componentDidMount() {
-    if (auth.getInstance().isAuthenticated()) {
-      PubSub.publish("navigation", "/elections");
-    }
-  }
+	componentDidMount() {
+		if (auth.getInstance().isAuthenticated()) {
+			PubSub.publish("navigation", "/elections");
+		}
+	}
+
+	onChange = (e) => {
+		this.setState({[e.target.name]: e.target.value});
+	}
 
 	handleSubmit = (e) => {
 		e.preventDefault();
