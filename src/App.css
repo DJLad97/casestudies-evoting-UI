@@ -14,8 +14,8 @@ a {
 
 .lds-dual-ring {
 	display: inline-block;
-	width: 64px;
-	height: 64px;
+	/* width: 64px; */
+	/* height: 64px; */
     margin-top: 2em;
   }
   .lds-dual-ring:after {
