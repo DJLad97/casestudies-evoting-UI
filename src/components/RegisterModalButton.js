@@ -160,7 +160,7 @@ class RegisterModalButton extends Component {
             <Form.Control
               type="text"
               placeholder="Postcode"
-              name="postCode"
+              name="mPostCode"
               onChange={this.onChange}
               value={this.state.postCode}
               required
@@ -209,6 +209,7 @@ class RegisterModalButton extends Component {
           <hr />
 
           <input
+            name="btnRegisterModal"
             type="submit"
             className="btn btn-info"
             value="Register to vote"
