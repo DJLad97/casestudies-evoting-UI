@@ -122,6 +122,7 @@ class FirstPastThePost extends Component {
         return (
             <div>
                 <div className="page-content-box">
+                    <Button variant="info" onClick={() => PubSub.publish('navigation', '/elections/')}>&#8592;&nbsp;{t('back')}</Button>
                     <h2 id="election-name">{this.state.election.electionName}</h2>
                     <h4 id="instructions">
                         {/* Please click on the candidate you wish to vote for */}
@@ -155,7 +156,7 @@ class FirstPastThePost extends Component {
                         <Button variant="warning" onClick={this.spoilBtn} className="spoil-btn">{t('spoilBallot')}</Button>
                     </Form>
                 </div>
-                <ModalClass header={t('confirmVote')} closeBtn="No" confirmBtn="Yes" 
+                <ModalClass header={t('confirmVote')} closeBtn={t('no')} confirmBtn={t('yes')}
                             show={this.state.showModal} handleConfirm={this.confirmVote} 
                             handleClose={() => this.setState({showModal: false})}>
                     <p className="modal-body">

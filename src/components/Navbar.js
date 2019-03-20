@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import { Form, Nav, Button } from 'react-bootstrap';
 import { Redirect } from 'react-router-dom';
-import { useTranslation, withTranslation, Translation } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import i18n from 'i18next'
 import auth from '../utils/auth';
 
 import '../styles/navbar.css';
-
-// const { t, i18n } = useTranslation();
 
 class Navbar extends Component {
 
@@ -33,7 +31,6 @@ class Navbar extends Component {
     render() {
         const { t } = this.props;
         if(!auth.getInstance().isAuthenticated() && this.state.loggedOut) {
-            // alert('trying to redirect')
             return <Redirect to='/login' />
         }
 

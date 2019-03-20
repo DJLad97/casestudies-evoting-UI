@@ -4,6 +4,7 @@ import
 import axios from 'axios';
 import isEmpty from 'is-empty';
 import PubSub from 'pubsub-js';
+import { withTranslation } from 'react-i18next';
 
 import ModalClass from '../ModalClass';
 import auth from '../../utils/auth';
@@ -33,13 +34,14 @@ class StvPvVote extends Component {
     } 
 
     renderCandidates = () => {
+        const { t } = this.props;
 		return this.state.candidates.map((candidate, id) => {
             let button = '';
             if(!candidate.votedFor){
-                button = (<Button className="add-remove-btn" variant="info" onClick={() => this.addToVote(candidate, id)}>Add</Button>);
+                button = (<Button className="add-remove-btn" variant="info" onClick={() => this.addToVote(candidate, id)}>{t('add')}</Button>);
             }
             else {
-                button = (<Button className="add-remove-btn" variant="danger" onClick={() => this.removeFromVote(candidate, id)}>Remove</Button>);
+                button = (<Button className="add-remove-btn" variant="danger" onClick={() => this.removeFromVote(candidate, id)}>{t('remove')}</Button>);
             }
 			return (
 				<div className="candidate-container" key={id}>
@@ -98,9 +100,10 @@ class StvPvVote extends Component {
     }
     
     handleSubmit = (e) => {
+        const { t } = this.props;
         e.preventDefault();
         if (isEmpty(this.state.votes)){
-            this.setState({error: 'Please select a candidate(s)!'})
+            this.setState({error: t('selectCandidateStvPv')})
             return;
         }
         else{
@@ -149,19 +152,45 @@ class StvPvVote extends Component {
     
         PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
     }
+
+    spoilBtn = () => {
+
+        const endpoint = auth.getInstance().getUserEndpoint();
+        const headers = {
+            headers: {
+                "x-access-token": auth.getInstance().getToken(),
+                "x-access-token2": auth.getInstance().getConsToken()
+            }
+        }
+
+        axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers)
+            .then((res) => {
+                PubSub.publish('navigation', '/vote-confirmed/' + this.state.election.electionName);
+
+                console.log(res);
+        })
+
+    }
+
     render() {
+        const { t } = this.props;
         return (
             <div>
                 <div className="page-content-box">
+                    <Button variant="info" onClick={() => PubSub.publish('navigation', '/elections/')}>&#8592;&nbsp;{t('back')}</Button>
                     <h2 id="election-name">{this.state.election.electionName}</h2>
                     <p id="instructions">
-                        To rank a candidate, click the add button next to that candidate.
+                        {/* To rank a candidate, click the add button next to that candidate. */}
+                        {t('stvPvDescLine1')}
                         <br/>
-                        The first candidate you add will be put to rank 1
+                        {/* The first candidate you add will be put to rank 1 */}
+                        {t('stvPvDescLine2')}
                         <br/>
-                        The second candidate you will put to rank 2 and so on
+                        {/* The second candidate you will put to rank 2 and so on */}
+                        {t('stvPvDescLine3')}
                         <br/>
-                        If you remove a canidate, all the candidates below will be moved up a rank
+                        {/* If you remove a canidate, all the candidates below will be moved up a rank */}
+                        {t('stvPvDescLine4')}
                     </p>
                     <Form onSubmit={this.handleSubmit}>
                         <Row>
@@ -183,39 +212,41 @@ class StvPvVote extends Component {
                             </Col> */}
                             {/* <Col md={2}></Col> */}
                             <Col md={4}>
-                                <h3 className="candidate-header">Candidates</h3>
+                                <h3 className="candidate-header">{t('candidates')}</h3>
                                 {this.renderCandidates()}
                             </Col>
                             <Col md={2}></Col>
                             <Col md={4}>
-                                <h3 className="candidate-header">Votes</h3>
+                                <h3 className="candidate-header">{t('votes')}</h3>
                                 {this.renderVotes()}
                             </Col>
                             <Col md={{ span: 8, offset: 2}}>
                                 <Button variant="primary" size="lg" className="submit-vote" type="submit" block>
-                                    Submit Vote
+                                {t('submitVote')}
                                 </Button>
                             </Col>
                             {/* <Col md={2}></Col> */}
                         </Row>
-                        <Button variant="warning" className="spoil-btn">Spoil Ballot</Button>
+                        <Button variant="warning" className="spoil-btn">{t('spoilBallot')}</Button>
                     </Form>
                 </div>
-                <ModalClass header="Confirm Vote" closeBtn="No" confirmBtn="Yes" 
+                <ModalClass header={t('confirmVote')} closeBtn={t('no')} confirmBtn={t('yes')} 
                             show={this.state.showModal} handleConfirm={this.confirmVote} 
                             handleClose={() => this.setState({showModal: false})}>
                     <p className="modal-body">
                         {this.state.submittingVotes && <span><span>Submitting Votes</span><br/><span className="lds-dual-ring"/></span>}
                         {!this.state.submittingVotes && (
                             <span>
-                                Your selected votes are as followed: 
+                                {/* Your selected votes are as followed:  */}
+                                {t('voteSelectStvPv')}
                                 <br/>
                                 <br/>
                                 {this.state.votes.map((vote, index) => {
                                     return <span key={index}><strong>{index + 1}.</strong>&nbsp;{vote.candidateName}<br/></span>
                                 })}
                                 <br/>
-                                Are these your choices?
+                                {t('voteFinaliseStvPv')}
+                                {/* Are these your choices? */}
                             </span>
                         )}
                     </p>
@@ -225,4 +256,4 @@ class StvPvVote extends Component {
     }
 }
 
-export default StvPvVote;
+export default withTranslation()(StvPvVote);

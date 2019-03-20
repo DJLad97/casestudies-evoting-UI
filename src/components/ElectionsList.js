@@ -3,7 +3,7 @@ import axios from "axios";
 import { Row, Button, Col, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import isEmpty from "is-empty";
-import { useTranslation, withTranslation, Translation } from "react-i18next";
+import { withTranslation } from "react-i18next";
 
 import auth from "../utils/auth";
 import ElectionLink from "./ElectionLink";

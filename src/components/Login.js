@@ -3,7 +3,6 @@ import PubSub from 'pubsub-js'
 import { Form, Button, Row, Col, Alert } from 'react-bootstrap';
 import axios from 'axios'
 import isEmpty from 'is-empty';
-import { translate, Trans } from 'react-i18next';
 import { withTranslation } from 'react-i18next';
 import RegisterModalButton from './RegisterModalButton';
 import auth from '../utils/auth';

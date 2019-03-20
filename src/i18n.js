@@ -6,6 +6,9 @@ import { initReactI18next } from "react-i18next";
 const resources = {
     en: {
         translation: {
+            "yes": "Yes",
+            "no": "No",
+            "back": "Back",
             "login": "Login",
             "logout": "Log Out",
             "postCode": "Post Code",
@@ -28,20 +31,33 @@ const resources = {
             "noElections": "No elections available!",
             "fptpDescLine1":"Please click on the candidate you wish to vote for",
             "fptpDescLine2":"You will only be able to choose one candidate",
-            "stvPvDescLine1":"",
-            "stvPvDescLine2":"",
-            "stvPvDescLine3":"",
-            "stvPvDescLine4":"",
+            "stvPvDescLine1":"To rank a candidate, click the add button next to that candidate.",
+            "stvPvDescLine2":"The first candidate you add will be put to rank 1",
+            "stvPvDescLine3":"The second candidate you will put to rank 2 and so on",
+            "stvPvDescLine4":"If you remove a canidate, all the candidates below will be moved up a rank",
             "submitVote":"Submit Vote",
             "spoilBallot":"Spoil Ballot",
             "selectCandidate":" Please Select a Candidate!",
+            "selectCandidateStvPv":" Please Select a Candidate!",
             "confirmVote": "Confirm Vote",
             "voteSelect": "You have selected to vote for:",
-            "voteFinalise": "Is this your choice?"
+            "voteFinalise": "Is this your choice?",
+            "voteSelectStvPv":" Your selected votes are as followed:",
+            "voteFinaliseStvPv":" Are these your choices?",
+            "candidates": "Candidates",
+            "votes": "Votes",
+            "add": "Add",
+            "remove": "Remove",
+            "confirmText1": "Your vote for ",
+            "confirmText2": "has been submitted",
+            "returnToElections": "Return to Elections Page"
         }
     },
     fr: {
         translation: {
+            "yes": "Oui",
+            "no": "Non",
+            "back": "Retour",
             "login": "S'identifier",
             "logout": "Connectez - Out",
             "postCode": "Code Postal",
@@ -64,20 +80,33 @@ const resources = {
             "noElections": "Aucune élection disponible!",
             "fptpDescLine1":"Veuillez cliquer sur le candidat pour lequel vous souhaitez voter",
             "fptpDescLine2":"Vous ne pourrez choisir qu'un seul candidat",
-            "stvPvDescLine1":"",
-            "stvPvDescLine2":"",
-            "stvPvDescLine3":"",
-            "stvPvDescLine4":"",
+            "stvPvDescLine1":"Pour classer un candidat, cliquez sur le bouton Ajouter en regard de ce candidat",
+            "stvPvDescLine2":"Le premier candidat ajouté sera classé au rang 1",
+            "stvPvDescLine3":"Le deuxième candidat que vous placerez au rang 2 et ainsi de suite",
+            "stvPvDescLine4":"Si vous supprimez un candidat, tous les candidats ci-dessous seront promus d'un rang",
             "submitVote":"Soumettre un vote",
             "spoilBallot":"Débloquer le bulletin de vote",
             "selectCandidate":"S'il vous plaît sélectionner un candidat!",
+            "selectCandidateStvPv":" Veuillez sélectionner un (des) candidat(s)!",
             "confirmVote": "Confirmer le vote",
             "voteSelect": "Vous avez choisi de voter pour:",
-            "voteFinalise": "¿Es esta tu elección?"
+            "voteFinalise": "Est-ce votre choix?",
+            "voteSelectStvPv":" Les votes que vous avez sélectionnés sont les suivants:",
+            "voteFinaliseStvPv":" Sont-ce vos choix?",
+            "candidates": "Candidat",
+            "votes": "Votes",
+            "add": "Ajouter",
+            "remove": "Retirer",
+            "confirmText1": "Votre vote pour ",
+            "confirmText2": " a été soumis",
+            "returnToElections": "Retour à la page des élections"
         }
     },
     es: {
         translation: {
+            "yes": "Sí",
+            "no": "No",
+            "back": "Espalda",
             "login": "Iniciar sesión",
             "logout": "Cerrar sesión",
             "postCode": "código postal",
@@ -100,22 +129,35 @@ const resources = {
             "noElections": "No hay elecciones disponibles!",
             "fptpDescLine1":"Por favor, haga clic en el candidato por el que desea votar",
             "fptpDescLine2":"Solo podrá elegir un candidato",
-            "stvPvDescLine1":"",
-            "stvPvDescLine2":"",
-            "stvPvDescLine3":"",
-            "stvPvDescLine4":"",
+            "stvPvDescLine1":"Para clasificar a un candidato, haga clic en el botón Agregar junto a ese candidato",
+            "stvPvDescLine2":"El primer candidato que agregues será puesto en el rango 1",
+            "stvPvDescLine3":"El segundo candidato lo pondrás en el puesto 2 y así sucesivamente",
+            "stvPvDescLine4":"Si elimina un candidato, todos los candidatos a continuación subirán de rango",
             "submitVote":"Enviar voto",
             "spoilBallot":"Boleta de botín",
             "selectCandidate":" Por favor, seleccione un candidato!",
+            "selectCandidateStvPv":"Por favor, seleccione un candidato(s)!",
             "confirmVote": "Confirmar voto",
             "voteSelect": "Has seleccionado votar por:",
-            "voteFinalise": "¿Es esta tu elección?"
+            "voteFinalise": "¿Es esta tu elección?",
+            "voteSelectStvPv":" Sus votos seleccionados son los siguientes:",
+            "voteFinaliseStvPv":"¿Son estas tus elecciones?",
+            "candidates": "Los candidatos",
+            "votes": "Votos",
+            "add": "Añadir",
+            "remove": "Retirar",
+            "confirmText1": "Tu voto para ",
+            "confirmText2": " ha sido enviado",
+            "returnToElections": "Regresar a la página de elecciones"
 
         }
 
     },
     cy: {
         translation: {
+            "yes": "Ydw",
+            "no": "Na",
+            "back": "Yn ôl",
             "login": "Mewngofnodi",
             "logout": "Allgofnodi",
             "postCode": "Cod Post",
@@ -138,18 +180,26 @@ const resources = {
             "noElections": "Dim etholiadau ar gael!",
             "fptpDescLine1":"Cliciwch ar yr ymgeisydd yr hoffech bleidleisio drosto", 
             "fptpDescLine2" : "Dim ond un ymgeisydd y gallwch ei ddewis",
-            "stvPvDescLine1":"",
-            "stvPvDescLine2":"",
-            "stvPvDescLine3":"",
-            "stvPvDescLine4":"",
+            "stvPvDescLine1":"I raddio ymgeisydd, cliciwch y botwm ychwanegu wrth ymyl yr ymgeisydd hwnnw",
+            "stvPvDescLine2":"Bydd yr ymgeisydd cyntaf a ychwanegwch yn cael ei roi i reng 1",
+            "stvPvDescLine3":"Yr ail ymgeisydd y byddwch yn ei roi i reng 2 ac yn y blaen",
+            "stvPvDescLine4":"Os byddwch yn symud ymgeisydd, bydd yr holl ymgeiswyr isod yn cael eu symud i fyny i safle",
             "submitVote":"Cyflwyno Pleidlais",
             "spoilBallot":"Pleidleisiwch",
             "selectCandidate":" Dewiswch Ymgeisydd os gwelwch yn dda!",
+            "selectCandidateStvPv":"Dewiswch ymgeisydd / ymgeiswyr!",
             "confirmVote": "Cadarnhewch Bleidlais",
             "voteSelect": "Rydych chi wedi dewis pleidleisio dros:",
-            "voteFinalise": "Ai dyma'ch dewis chi?"
-
-
+            "voteFinalise": "Ai dyma'ch dewis chi?",
+            "voteSelectStvPv":" Mae eich pleidleisiau dewisedig fel a ganlyn:",
+            "voteFinaliseStvPv":"Ai dyma'ch dewisiadau chi?",
+            "candidates": "Ymgeiswyr",
+            "votes": "Pleidleisiau",
+            "add": "Ychwanegu",
+            "remove": "Dileu",
+            "confirmText1": "Eich pleidlais dros ",
+            "confirmText2": " wedi ei gyflwyno",
+            "returnToElections": "Dychwelyd i'r Dudalen Etholiadau"
         }
     }
 };

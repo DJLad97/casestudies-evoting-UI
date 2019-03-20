@@ -1,10 +1,4 @@
 import React, { Component } from 'react';
-import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import axios from 'axios';
-import isEmpty from 'is-empty';
-
-import ModalClass from './ModalClass';
-import auth from '../utils/auth';
 import Factory from '../Factories/ElectionTypeFactory';
 
 import '../styles/election-vote.css';
