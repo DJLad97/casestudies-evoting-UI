@@ -130,8 +130,8 @@ export default class Login extends Component {
                 <Button name="btnLogin" variant="primary" type="submit">
                   Log In
                 </Button>
-                <RegisterModalButton />
               </Form>
+              <RegisterModalButton />
             </div>
           </Col>
         </Row>
