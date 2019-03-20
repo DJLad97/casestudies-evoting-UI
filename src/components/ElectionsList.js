@@ -3,6 +3,7 @@ import axios from "axios";
 import { Row, Button, Col, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import isEmpty from "is-empty";
+import { withTranslation } from "react-i18next";
 
 import auth from "../utils/auth";
 import ElectionLink from "./ElectionLink";
@@ -73,20 +74,24 @@ class ElectionsList extends Component {
   };
 
   render() {
-    return (
-      <div className="page-content-box elections-list">
-        <h3 id="elections-list-header">
-          Please choose the election you wish to vote in
-        </h3>
-        <Row>
-          <Col md={{ span: 8, offset: 2 }}>
-            {isEmpty(this.state.currentElections) && !this.state.loading && (
-              <Alert variant="warning">
-                <p>No elections available!</p>
-              </Alert>
-            )}
-          </Col>
-          {!isEmpty(this.state.currentElections) && this.renderElections()}
+	const { t } = this.props;
+	return (
+		<div className="page-content-box elections-list">
+			<h3 id="elections-list-header">
+				{/* Please choose the election you wish to vote in */}
+				{t('electionHeader')}
+			</h3>
+			<Row>
+				<Col md={{ span: 8, offset: 2 }}>
+
+				{
+					(isEmpty(this.state.currentElections) && !this.state.loading) && 
+					<Alert variant="warning">
+						<p>{t('noElections')}</p>
+					</Alert>
+				}
+				</Col>
+				{ (!isEmpty(this.state.currentElections)) && this.renderElections() }
 
           <Col md={{ span: 8, offset: 2 }}>
             {this.state.loading && <div className="lds-dual-ring" />}
@@ -113,4 +118,4 @@ class ElectionsList extends Component {
   }
 }
 
-export default ElectionsList;
+export default withTranslation()(ElectionsList);
