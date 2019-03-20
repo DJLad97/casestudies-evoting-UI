@@ -13,4 +13,8 @@ const ElectionLink = props => {
   );
 };
 
+function handleClick() {
+  console.log("handled it mate");
+}
+
 export default ElectionLink;
