@@ -18,7 +18,7 @@ class RegisterModalButton extends Component {
       modalIsOpen: false,
       firstName: "",
       lastName: "",
-      postCode: "",
+      mPostCode: "",
       isAuditor: false,
       countryId: "",
       nationality: "",
@@ -61,7 +61,7 @@ class RegisterModalButton extends Component {
       alert("Last name is a required field!");
       return;
     }
-    if (this.state.postCode == "" || this.state.postCode == null) {
+    if (this.state.mPostCode == "" || this.state.mPostCode == null) {
       alert("PostCode is a required field!");
       return;
     }
@@ -86,7 +86,7 @@ class RegisterModalButton extends Component {
       firstName: this.state.firstName,
       lastName: this.state.lastName,
       isAuditor: false,
-      postCode: this.state.postCode.replace(/\s/g, "").toLowerCase(),
+      postCode: this.state.mPostCode.replace(/\s/g, "").toLowerCase(),
       countryId: this.state.countryId,
       nationality: this.state.nationality,
       dateOfBirth: this.state.dateOfBirth,
@@ -111,7 +111,7 @@ class RegisterModalButton extends Component {
 
     this.setState({ firstName: "" });
     this.setState({ lastName: "" });
-    this.setState({ postCode: "" });
+    this.setState({ mPostCode: "" });
     this.setState({ countryId: "" });
     this.setState({ nationality: "" });
     this.setState({ dateOfBirth: "" });
@@ -162,7 +162,7 @@ class RegisterModalButton extends Component {
               placeholder="Postcode"
               name="mPostCode"
               onChange={this.onChange}
-              value={this.state.postCode}
+              value={this.state.mPostCode}
               required
             />
           </Form.Group>
