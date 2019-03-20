@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Row, Button, Col } from "react-bootstrap";
+import { Row, Button, Col, Alert } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import isEmpty from "is-empty";
 
 import auth from "../utils/auth";
 import ElectionLink from "./ElectionLink";
@@ -42,6 +43,7 @@ class ElectionsList extends Component {
         .toLowerCase()
         .replace(/-/g, "")
         .replace(/ /g, "-");
+
       return (
         <React.Fragment key={index}>
           <Link
@@ -77,7 +79,14 @@ class ElectionsList extends Component {
           Please choose the election you wish to vote in
         </h3>
         <Row>
-          {this.renderElections()}
+          <Col md={{ span: 8, offset: 2 }}>
+            {isEmpty(this.state.currentElections) && !this.state.loading && (
+              <Alert variant="warning">
+                <p>No elections available!</p>
+              </Alert>
+            )}
+          </Col>
+          {!isEmpty(this.state.currentElections) && this.renderElections()}
 
           <Col md={{ span: 8, offset: 2 }}>
             {this.state.loading && <div className="lds-dual-ring" />}

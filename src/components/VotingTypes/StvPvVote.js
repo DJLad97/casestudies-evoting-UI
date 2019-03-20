@@ -17,7 +17,8 @@ class StvPvVote extends Component {
       candidates: this.initCandidates(),
       votes: [],
       error: "",
-      showModal: false
+      showModal: false,
+      submittingVotes: false
     };
   }
 
@@ -47,6 +48,7 @@ class StvPvVote extends Component {
       } else {
         button = (
           <Button
+            name="btnRemove"
             className="add-remove-btn"
             variant="danger"
             onClick={() => this.removeFromVote(candidate, id)}
@@ -65,6 +67,7 @@ class StvPvVote extends Component {
           </p>
           <img
             src={candidate.candidatePicture}
+            alt={candidate.party}
             className="candidate-image"
             height="60"
             width="60"
@@ -90,6 +93,7 @@ class StvPvVote extends Component {
           </p>
           <img
             src={candidate.candidatePicture}
+            alt={candidate.party}
             className="candidate-image"
             height="60"
             width="60"
@@ -120,15 +124,20 @@ class StvPvVote extends Component {
     this.setState({ votes, candidates });
   };
 
-  handleSubmit = async e => {
+  handleSubmit = e => {
     e.preventDefault();
     if (isEmpty(this.state.votes)) {
-      alert("Please select a candidate(s)");
+      this.setState({ error: "Please select a candidate(s)!" });
       return;
+    } else {
+      this.setState({ error: "", showModal: true });
     }
+  };
 
+  confirmVote = async () => {
     // const maxVotes = this.state.candidates.length
     let voteCount = this.state.candidates.length;
+    this.setState({ submittingVotes: true });
     const endpoint = auth.getInstance().getUserEndpoint();
     const headers = {
       headers: {
@@ -151,48 +160,24 @@ class StvPvVote extends Component {
       for (let i = 0; i < voteCount; i++) {
         console.log(i + 1 + " vote for " + vote.candidateName);
         await axios.post(endpoint + "/elections/vote", voteInfo, headers);
-        // .then(res => {
-        //     return axios.get(endpoint + '/elections/' + this.state.election._id + '/markAsVoted', headers);
-        // });
         console.log(`${i + 1} votes for ${vote.candidateName}`);
       }
 
       voteCount -= 1;
     }
+    this.setState({ error: "" });
+    this.setState({ submittingVotes: false });
 
-    // this.state.votes.forEach( (vote, index) => {
-    //     let voteInfo = {
-    //         electionId: this.state.election._id,
-    //         candidateId: vote.candidateId,
-    //         consistuency: auth.getInstance().getUserInfo().constiuenecyId
-    //     }
-
-    //     for(let i = 0; i < voteCount; i++){
-    //         console.log((i + 1) + ' vote for ' + vote.candidateName);
-    //         axios.post(endpoint + '/elections/vote', voteInfo, headers)
-    //             .then((res) => {
-    //                 console.log('vote counted');
-    //             })
-    //             .catch((err) => {
-    //                 console.log(err);
-    //             });
-    //     }
-
-    //     voteCount -= 1;
-    //}
-    //);
-
+    await axios.get(
+      endpoint + "/elections/" + this.state.election._id + "/markAsVoted",
+      headers
+    );
     PubSub.publish(
       "navigation",
       "/vote-confirmed/" + this.state.election.electionName
     );
   };
-
-  confirmVote = () => {};
   render() {
-    // console.log(props.election)
-    console.log(this.state.candidates);
-
     return (
       <div>
         <div className="page-content-box">
@@ -209,6 +194,11 @@ class StvPvVote extends Component {
           </p>
           <Form onSubmit={this.handleSubmit}>
             <Row>
+              <Col md={{ span: 8, offset: 2 }}>
+                {!isEmpty(this.state.error) && (
+                  <Alert variant="danger">{this.state.error}</Alert>
+                )}
+              </Col>
               {/* <Col md={{ span: 8, offset: 2}}>
                                 {
                                     (!isEmpty(this.state.error)) && 
@@ -241,7 +231,7 @@ class StvPvVote extends Component {
               </Col>
               {/* <Col md={2}></Col> */}
             </Row>
-            <Button variant="warning" className="spoil-btn">
+            <Button name="btnSpoil" variant="warning" className="spoil-btn">
               Spoil Ballot
             </Button>
           </Form>
@@ -255,12 +245,30 @@ class StvPvVote extends Component {
           handleClose={() => this.setState({ showModal: false })}
         >
           <p className="modal-body">
-            You have selected to vote for:
-            <br />
-            <strong>{this.state.selectedCandidate}</strong>
-            <br />
-            <br />
-            Is this your choice?
+            {this.state.submittingVotes && (
+              <span>
+                <span>Submitting Votes</span>
+                <br />
+                <span className="lds-dual-ring" />
+              </span>
+            )}
+            {!this.state.submittingVotes && (
+              <span>
+                Your selected votes are as followed:
+                <br />
+                <br />
+                {this.state.votes.map((vote, index) => {
+                  return (
+                    <span key={index}>
+                      <strong>{index + 1}.</strong>&nbsp;{vote.candidateName}
+                      <br />
+                    </span>
+                  );
+                })}
+                <br />
+                Are these your choices?
+              </span>
+            )}
           </p>
         </ModalClass>
       </div>
