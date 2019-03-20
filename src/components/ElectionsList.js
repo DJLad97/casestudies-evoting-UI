@@ -42,8 +42,8 @@ class ElectionsList extends Component {
       const formattedName = election.electionName
         .toLowerCase()
         .replace(/-/g, "")
-		.replace(/ /g, "-");
-		
+        .replace(/ /g, "-");
+
       return (
         <React.Fragment key={index}>
           <Link
@@ -73,40 +73,42 @@ class ElectionsList extends Component {
   };
 
   render() {
-	return (
-		<div className="page-content-box elections-list">
-			<h3 id="elections-list-header">
-				Please choose the election you wish to vote in
-			</h3>
-			<Row>
-				<Col md={{ span: 8, offset: 2 }}>
+    return (
+      <div className="page-content-box elections-list">
+        <h3 id="elections-list-header">
+          Please choose the election you wish to vote in
+        </h3>
+        <Row>
+          <Col md={{ span: 8, offset: 2 }}>
+            {isEmpty(this.state.currentElections) && !this.state.loading && (
+              <Alert variant="warning">
+                <p>No elections available!</p>
+              </Alert>
+            )}
+          </Col>
+          {!isEmpty(this.state.currentElections) && this.renderElections()}
 
-				{
-					(isEmpty(this.state.currentElections) && !this.state.loading) && 
-					<Alert variant="warning">
-						<p>No elections available!</p>
-					</Alert>
-				}
-				</Col>
-				{ (!isEmpty(this.state.currentElections)) && this.renderElections() }
-
-				<Col md={{ span: 8, offset: 2 }}>
-					{this.state.loading && <div className="lds-dual-ring" />}
-					{(!this.state.loading && this.isAuditor) && (
-						<Button className="AsAuditor" variant="outline-dark">
-						<Link
-							to={{
-							pathname: `/audit/all`
-							}}
-						>
-							{" "}
-							View all elections
-						</Link>
-						</Button>
-					)}
-				</Col>
-			</Row>
-		</div>
+          <Col md={{ span: 8, offset: 2 }}>
+            {this.state.loading && <div className="lds-dual-ring" />}
+            {!this.state.loading && this.isAuditor && (
+              <Button
+                name="btnViewAll"
+                className="AsAuditor"
+                variant="outline-dark"
+              >
+                <Link
+                  to={{
+                    pathname: `/audit/all`
+                  }}
+                >
+                  {" "}
+                  View all elections
+                </Link>
+              </Button>
+            )}
+          </Col>
+        </Row>
+      </div>
     );
   }
 }
