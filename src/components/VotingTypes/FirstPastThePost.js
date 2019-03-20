@@ -111,10 +111,6 @@ class FirstPastThePost extends Component {
     };
 
     await axios.post(endpoint + "/elections/vote", voteInfo, headers);
-    await axios.get(
-      endpoint + "/elections/" + this.state.election._id + "/markAsVoted",
-      headers
-    );
     PubSub.publish(
       "navigation",
       "/vote-confirmed/" + this.state.election.electionName

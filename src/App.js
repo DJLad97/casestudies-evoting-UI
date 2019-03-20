@@ -35,11 +35,9 @@ class App extends Component {
           <Container>
             {/* Must be present on all pages */}
             <Redirector />
-            {!auth.getInstance().isAuthenticated() && (
-              <div>
+            <div>
                 <Redirect from="/" to="login" />
-              </div>
-            )}
+            </div>
             <Route path="/login" component={Login} />
             <ProtectedRoute path="/elections" component={ElectionsList} />
             <ProtectedRoute path="/election/:name" component={ElectionVote} />

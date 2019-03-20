@@ -173,10 +173,6 @@ class StvPvVote extends Component {
     this.setState({ error: "" });
     this.setState({ submittingVotes: false });
 
-    await axios.get(
-      endpoint + "/elections/" + this.state.election._id + "/markAsVoted",
-      headers
-    );
     PubSub.publish(
       "navigation",
       "/vote-confirmed/" + this.state.election.electionName
