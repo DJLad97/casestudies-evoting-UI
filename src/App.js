@@ -39,7 +39,7 @@ class App extends Component {
             <Route path="/login" component={Login} />
             <ProtectedRoute path="/elections" component={ElectionsList} />
             <ProtectedRoute path="/election/:name" component={ElectionVote} />
-            <ProtectedRoute path="/vote-confirmed" component={VoteConfirmed} />
+            <ProtectedRoute path="/vote-confirmed/:name" component={VoteConfirmed} />
             <ProtectedRoute path="/audit/all" component={allElectionsList} />
             <ProtectedRoute
               path="/audit/viewelection/:name"
