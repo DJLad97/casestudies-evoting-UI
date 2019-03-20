@@ -120,8 +120,8 @@ class Login extends Component {
 								<Button variant="primary" type="submit">
 									{t('login')}
 								</Button>
-								<RegisterModalButton />
 							</Form>
+              <RegisterModalButton />
 						</div>
 					</Col>
 				</Row>

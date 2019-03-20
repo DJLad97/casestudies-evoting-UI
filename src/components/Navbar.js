@@ -13,14 +13,18 @@ class Navbar extends Component {
         super(props);
         this.state = {
             loggedOut: false,
-            lang: 'en'
+            lang: 'en',
+            accessibilityMode: false
         }
     }
-    
 
     changeLanguage = (e) => {
         this.setState({lang: e.target.value})
         i18n.changeLanguage(e.target.value);
+    }
+
+    handleAccessibilityMode = (e) => {
+        this.setState({accessibilityMode: !this.state.accessibilityMode});
     }
     
     logout = () => {
@@ -36,9 +40,21 @@ class Navbar extends Component {
 
         return (
             <Nav className="justify-content-end" >
+                
+                {
+                    (this.state.accessibilityMode) &&
+                    <Nav.Item>
+                        <label className="checkbox-container">{t('zoom')}
+                            <Button variant="secondary" onClick={this.props.increaseZoom} className="zoom-btn">&#43;</Button>
+                            <Button variant="secondary" onClick={this.props.descreaseZoom} className="zoom-btn">&#8722;</Button>
+                        </label>
+                    </Nav.Item>
+                }
                 <Nav.Item>
                     <label className="checkbox-container">{t('accessibilityMode')}
-                        <input type="checkbox" id="accessibility-mode"/>
+                        <input type="checkbox" defaultChecked={this.state.accessibilityMode} 
+                            onChange={this.handleAccessibilityMode}
+                            id="accessibility-mode"/>
                         <span className="checkbox"></span>
                     </label>
                 </Nav.Item>

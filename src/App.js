@@ -23,15 +23,25 @@ class App extends Component {
     super(props);
 
     this.state = {
-    	// zoom
+    	zoom: 100
     }
   }
+
+increaseZoom = () => {
+	let zoom = this.state.zoom + 10;
+	this.setState({zoom});
+}
+
+descreaseZoom = () => {
+	let zoom = this.state.zoom - 10;
+	this.setState({zoom});
+}
 
   render() {
     return (
       <Router>
-        <div className="App" style={{zoom: '100%'}}>
-          <Navbar />
+        <div className="App" style={{zoom: this.state.zoom + '%'}}>
+          <Navbar increaseZoom={this.increaseZoom} descreaseZoom={this.descreaseZoom}/>
           <Container>
             {/* Must be present on all pages */}
             <Redirector />

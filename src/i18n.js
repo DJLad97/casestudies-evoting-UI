@@ -6,6 +6,7 @@ import { initReactI18next } from "react-i18next";
 const resources = {
     en: {
         translation: {
+            "zoom": "Zoom",
             "yes": "Yes",
             "no": "No",
             "back": "Back",
@@ -55,6 +56,7 @@ const resources = {
     },
     fr: {
         translation: {
+            "zoom": "Zoom",
             "yes": "Oui",
             "no": "Non",
             "back": "Retour",
@@ -104,6 +106,7 @@ const resources = {
     },
     es: {
         translation: {
+            "zoom": "Enfocar",
             "yes": "Sí",
             "no": "No",
             "back": "Espalda",
@@ -155,6 +158,7 @@ const resources = {
     },
     cy: {
         translation: {
+            "zoom": "Chwyddo",
             "yes": "Ydw",
             "no": "Na",
             "back": "Yn ôl",
