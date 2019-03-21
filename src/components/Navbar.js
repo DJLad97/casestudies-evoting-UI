@@ -107,7 +107,7 @@ class Navbar extends Component {
               type="checkbox"
               defaultChecked={this.state.accessibilityMode}
               onChange={this.handleAccessibilityMode}
-              id="accessibility-mode"
+              id="accessibility-mode-checkbox"
             />
             <span className="checkbox" />
           </label>
