@@ -49,3 +49,8 @@ a {
 .return-home-btn {
 	margin-top: 2em;
 }
+
+.zoom-btn {
+	border-radius: 10em;
+	margin-left: 1em;
+}

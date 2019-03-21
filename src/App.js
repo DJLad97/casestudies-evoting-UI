@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import Container from "react-bootstrap/Container";
+
 import Redirector from "./utils/Redirector";
 
 import ProtectedRoute from "./components/ProtectedRoute";
@@ -20,25 +21,37 @@ import "./App.css";
 class App extends Component {
   constructor(props) {
     super(props);
+
+    this.state = {
+    	zoom: 100
+    }
   }
+
+increaseZoom = () => {
+	let zoom = this.state.zoom + 10;
+	this.setState({zoom});
+}
+
+descreaseZoom = () => {
+	let zoom = this.state.zoom - 10;
+	this.setState({zoom});
+}
 
   render() {
     return (
       <Router>
-        <div className="App">
-          <Navbar />
+        <div className="App" style={{zoom: this.state.zoom + '%'}}>
+          <Navbar increaseZoom={this.increaseZoom} descreaseZoom={this.descreaseZoom}/>
           <Container>
             {/* Must be present on all pages */}
             <Redirector />
-            {!auth.getInstance().isAuthenticated() && (
-              <div>
+            <div>
                 <Redirect from="/" to="login" />
-              </div>
-            )}
+            </div>
             <Route path="/login" component={Login} />
             <ProtectedRoute path="/elections" component={ElectionsList} />
             <ProtectedRoute path="/election/:name" component={ElectionVote} />
-            <ProtectedRoute path="/vote-confirmed" component={VoteConfirmed} />
+            <ProtectedRoute path="/vote-confirmed/:name" component={VoteConfirmed} />
             <ProtectedRoute path="/audit/all" component={allElectionsList} />
             <ProtectedRoute
               path="/audit/viewelection/:name"
@@ -51,4 +64,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default App; 

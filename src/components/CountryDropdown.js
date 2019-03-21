@@ -10,7 +10,7 @@ class CountryDropdown extends Component {
     render() {
         return (
             <select id="country" name="countryId" className="form-control" value={this.props.value} onChange={this.props.onChange} required={this.props.required}>
-                <option value="">Please Choose a Country</option>
+                <option value="">{this.props.translation}</option>
                 <option value="Afghanistan">Afghanistan</option>
                 <option value="Åland Islands">Åland Islands</option>
                 <option value="Albania">Albania</option>

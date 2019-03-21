@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Form, Modal } from "react-bootstrap";
 import axios from "axios";
+import { useTranslation, withTranslation, Translation } from 'react-i18next';
+
 import userAPI from "../utils/userAPI";
 import CountryDropdown from "./CountryDropdown";
 import NationalityDropdown from "./NationalityDropdown";
@@ -127,16 +129,18 @@ class RegisterModalButton extends Component {
   }
 
   getRegisterForm() {
+    const { t } = this.props;
+
     return (
       <div>
         <form onSubmit={this.submitNewUser}>
           <p>(* indicates a required field)</p>
 
           <Form.Group>
-            <Form.Label>First Name: *</Form.Label>
+            <Form.Label>{t('firstName')}: *</Form.Label>
             <Form.Control
               type="text"
-              placeholder="First Name"
+              placeholder={t('firstName')}
               name="firstName"
               onChange={this.onChange}
               value={this.state.firstName}
@@ -144,10 +148,10 @@ class RegisterModalButton extends Component {
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>Last Name: *</Form.Label>
+            <Form.Label>{t('lastName')}: *</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Last Name"
+              placeholder={t('lastName')}
               name="lastName"
               onChange={this.onChange}
               value={this.state.lastName}
@@ -156,10 +160,10 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Postcode: *</Form.Label>
+            <Form.Label>{t('postCode')}: *</Form.Label>
             <Form.Control
               type="text"
-              placeholder="Postcode"
+              placeholder={t('postCode')}
               name="mPostCode"
               onChange={this.onChange}
               value={this.state.mPostCode}
@@ -168,8 +172,9 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Country: *</Form.Label>
+            <Form.Label>{t('country')}: *</Form.Label>
             <CountryDropdown
+              translation={t('countryDesc')}
               value={this.state.countryId}
               onChange={this.onChange}
               required={true}
@@ -177,8 +182,9 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Nationality: *</Form.Label>
+            <Form.Label>{t('nationality')}: *</Form.Label>
             <NationalityDropdown
+              translation={t('nationalityDesc')}
               value={this.state.nationality}
               onChange={this.onChange}
               required={true}
@@ -186,7 +192,7 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Date of Birth: *</Form.Label>
+            <Form.Label>{t('dob')}: *</Form.Label>
             <Form.Control
               type="date"
               name="dateOfBirth"
@@ -197,9 +203,10 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Full Address: *</Form.Label>
+            <Form.Label>{t('fullAddress')}: *</Form.Label>
             <Form.Control
               type="text"
+              placeholder={t('fullAddress')}
               name="fullAddress"
               onChange={this.onChange}
               value={this.state.fullAddress}
@@ -212,7 +219,7 @@ class RegisterModalButton extends Component {
             name="btnRegisterModal"
             type="submit"
             className="btn btn-info"
-            value="Register to vote"
+            value={t('regToVote')}
           />
         </form>
       </div>
@@ -220,6 +227,7 @@ class RegisterModalButton extends Component {
   }
 
   render() {
+    const { t } = this.props;
     return (
       <div className="">
         <button
@@ -231,11 +239,11 @@ class RegisterModalButton extends Component {
           data-target="registerModal"
           onClick={this.openModal}
         >
-          Or Register To Vote
+          {t('registerBtn')}
         </button>
         <Modal show={this.state.modalIsOpen} onHide={this.closeModal}>
           <Modal.Header closeButton>
-            <Modal.Title>Register</Modal.Title>
+            <Modal.Title>{t('register')}</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>{this.getRegisterForm()}</Modal.Body>
@@ -247,4 +255,4 @@ class RegisterModalButton extends Component {
   }
 }
 
-export default RegisterModalButton;
+export default withTranslation()(RegisterModalButton);

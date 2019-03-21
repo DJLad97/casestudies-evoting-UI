@@ -1,8 +1,10 @@
-import React, { Component } from "react";
-import { Row, Col, Form, Button, Alert } from "react-bootstrap";
-import axios from "axios";
-import isEmpty from "is-empty";
-import PubSub from "pubsub-js";
+import React, { Component } from 'react';
+import
+ { Row, Col, Form, Button, Alert } from 'react-bootstrap';
+import axios from 'axios';
+import isEmpty from 'is-empty';
+import PubSub from 'pubsub-js';
+import { withTranslation } from 'react-i18next';
 
 import ModalClass from "../ModalClass";
 import auth from "../../utils/auth";
@@ -31,7 +33,20 @@ class StvPvVote extends Component {
     return candidates;
   };
 
+  handleSubmit = e => {
+    e.preventDefault();
+    const { t } = this.props;
+    if (isEmpty(this.state.votes)) {
+      this.setState({error: t('selectCandidateStvPv')});
+
+      return;
+    } else {
+      this.setState({ error: "", showModal: true });
+    }
+  };
+
   renderCandidates = () => {
+    const { t } = this.props;
     return this.state.candidates.map((candidate, id) => {
       let button = "";
       if (!candidate.votedFor) {
@@ -42,7 +57,7 @@ class StvPvVote extends Component {
             variant="info"
             onClick={() => this.addToVote(candidate, id)}
           >
-            Add
+            {t('add')}
           </Button>
         );
       } else {
@@ -53,7 +68,7 @@ class StvPvVote extends Component {
             variant="danger"
             onClick={() => this.removeFromVote(candidate, id)}
           >
-            Remove
+            {t('remove')}
           </Button>
         );
       }
@@ -124,16 +139,6 @@ class StvPvVote extends Component {
     this.setState({ votes, candidates });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    if (isEmpty(this.state.votes)) {
-      this.setState({ error: "Please select a candidate(s)!" });
-      return;
-    } else {
-      this.setState({ error: "", showModal: true });
-    }
-  };
-
   confirmVote = async () => {
     // const maxVotes = this.state.candidates.length
     let voteCount = this.state.candidates.length;
@@ -168,112 +173,94 @@ class StvPvVote extends Component {
     this.setState({ error: "" });
     this.setState({ submittingVotes: false });
 
-    await axios.get(
-      endpoint + "/elections/" + this.state.election._id + "/markAsVoted",
-      headers
-    );
     PubSub.publish(
       "navigation",
       "/vote-confirmed/" + this.state.election.electionName
     );
   };
+  
   render() {
+    const { t } = this.props;
     return (
-      <div>
-        <div className="page-content-box">
-          <h2 id="election-name">{this.state.election.electionName}</h2>
-          <p id="instructions">
-            To rank a candidate, click the add button next to that candidate.
-            <br />
-            The first candidate you add will be put to rank 1
-            <br />
-            The second candidate you will put to rank 2 and so on
-            <br />
-            If you remove a canidate, all the candidates below will be moved up
-            a rank
-          </p>
-          <Form onSubmit={this.handleSubmit}>
-            <Row>
-              <Col md={{ span: 8, offset: 2 }}>
-                {!isEmpty(this.state.error) && (
-                  <Alert variant="danger">{this.state.error}</Alert>
-                )}
-              </Col>
-              {/* <Col md={{ span: 8, offset: 2}}>
-                                {
-                                    (!isEmpty(this.state.error)) && 
-                                    <Alert variant="danger">
-                                        {this.state.error}
-                                    </Alert>
-                                }
-                            </Col> */}
-              {/* <Col md={2}></Col> */}
-              <Col md={4}>
-                <h3 className="candidate-header">Candidates</h3>
-                {this.renderCandidates()}
-              </Col>
-              <Col md={2} />
-              <Col md={4}>
-                <h3 className="candidate-header">Votes</h3>
-                {this.renderVotes()}
-              </Col>
-              <Col md={{ span: 8, offset: 2 }}>
-                <Button
-                  name="btnSubmit"
-                  variant="primary"
-                  size="lg"
-                  className="submit-vote"
-                  type="submit"
-                  block
-                >
-                  Submit Vote
-                </Button>
-              </Col>
-              {/* <Col md={2}></Col> */}
-            </Row>
-            <Button name="btnSpoil" variant="warning" className="spoil-btn">
-              Spoil Ballot
-            </Button>
-          </Form>
+        <div>
+            <div className="page-content-box">
+                <Button variant="info" onClick={() => PubSub.publish('navigation', '/elections/')}>&#8592;&nbsp;{t('back')}</Button>
+                <h2 id="election-name">{this.state.election.electionName}</h2>
+                <p id="instructions">
+                    {/* To rank a candidate, click the add button next to that candidate. */}
+                    {t('stvPvDescLine1')}
+                    <br/>
+                    {/* The first candidate you add will be put to rank 1 */}
+                    {t('stvPvDescLine2')}
+                    <br/>
+                    {/* The second candidate you will put to rank 2 and so on */}
+                    {t('stvPvDescLine3')}
+                    <br/>
+                    {/* If you remove a canidate, all the candidates below will be moved up a rank */}
+                    {t('stvPvDescLine4')}
+                </p>
+                <Form onSubmit={this.handleSubmit}>
+                    <Row>
+                        <Col md={{ span: 8, offset: 2}}>
+                            {
+                                (!isEmpty(this.state.error)) && 
+                                <Alert variant="danger">
+                                    {this.state.error}
+                                </Alert>
+                            }
+                        </Col>
+                        {/* <Col md={{ span: 8, offset: 2}}>
+                            {
+                                (!isEmpty(this.state.error)) && 
+                                <Alert variant="danger">
+                                    {this.state.error}
+                                </Alert>
+                            }
+                        </Col> */}
+                        {/* <Col md={2}></Col> */}
+                        <Col md={4}>
+                            <h3 className="candidate-header">{t('candidates')}</h3>
+                            {this.renderCandidates()}
+                        </Col>
+                        <Col md={2}></Col>
+                        <Col md={4}>
+                            <h3 className="candidate-header">{t('votes')}</h3>
+                            {this.renderVotes()}
+                        </Col>
+                        <Col md={{ span: 8, offset: 2}}>
+                            <Button variant="primary" size="lg" className="submit-vote" type="submit" block>
+                            {t('submitVote')}
+                            </Button>
+                        </Col>
+                        {/* <Col md={2}></Col> */}
+                    </Row>
+                    <Button variant="warning" className="spoil-btn">{t('spoilBallot')}</Button>
+                </Form>
+            </div>
+            <ModalClass header={t('confirmVote')} closeBtn={t('no')} confirmBtn={t('yes')} 
+                        show={this.state.showModal} handleConfirm={this.confirmVote} 
+                        handleClose={() => this.setState({showModal: false})}>
+                <p className="modal-body">
+                    {this.state.submittingVotes && <span><span>Submitting Votes</span><br/><span className="lds-dual-ring"/></span>}
+                    {!this.state.submittingVotes && (
+                        <span>
+                            {/* Your selected votes are as followed:  */}
+                            {t('voteSelectStvPv')}
+                            <br/>
+                            <br/>
+                            {this.state.votes.map((vote, index) => {
+                                return <span key={index}><strong>{index + 1}.</strong>&nbsp;{vote.candidateName}<br/></span>
+                            })}
+                            <br/>
+                            {t('voteFinaliseStvPv')}
+                            {/* Are these your choices? */}
+                        </span>
+                    )}
+                </p>
+            </ModalClass>
         </div>
-        <ModalClass
-          header="Confirm Vote"
-          closeBtn="No"
-          confirmBtn="Yes"
-          show={this.state.showModal}
-          handleConfirm={this.confirmVote}
-          handleClose={() => this.setState({ showModal: false })}
-        >
-          <p className="modal-body">
-            {this.state.submittingVotes && (
-              <span>
-                <span>Submitting Votes</span>
-                <br />
-                <span className="lds-dual-ring" />
-              </span>
-            )}
-            {!this.state.submittingVotes && (
-              <span>
-                Your selected votes are as followed:
-                <br />
-                <br />
-                {this.state.votes.map((vote, index) => {
-                  return (
-                    <span key={index}>
-                      <strong>{index + 1}.</strong>&nbsp;{vote.candidateName}
-                      <br />
-                    </span>
-                  );
-                })}
-                <br />
-                Are these your choices?
-              </span>
-            )}
-          </p>
-        </ModalClass>
-      </div>
     );
-  }
+}
 }
 
-export default StvPvVote;
+export default withTranslation()(StvPvVote);
