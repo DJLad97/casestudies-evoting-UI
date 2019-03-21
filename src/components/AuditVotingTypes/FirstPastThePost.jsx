@@ -5,6 +5,16 @@ import "../../styles/Borders.scss";
 import "../../styles/text.scss";
 import ChartFactory from "../../Factories/ChartFactory";
 
+/*
+ *
+ *
+ * FirstPastThePost is whoever wins the most constituencies and should only be generated using the AuditVotingTypesFactory
+ *
+ * @props {election}
+ * @exports {FirstPastThePost}
+ *
+ *
+ */
 class FirstPastThePost extends VotingModel {
   constructor(props) {
     super(props);
@@ -50,6 +60,18 @@ class FirstPastThePost extends VotingModel {
     );
   }
 
+  /*
+   *
+   * if the user is not an auditor, super.authenticate will kick them back to elections,
+   * if they are an auditor, render will return the result of getConstituencyResults and getWinner
+   * Calculations are
+   *
+   * 1) Find out who won consistencies by choosing the highest number of votes for that constituency and store the candidate name and constituency
+   *   1a) if there is a draw, that consistency is registered as undecided
+   * 2) Find the candidate with the highest occurences in the above list, if there is only one they are currently winning
+   *   2a) if there is multiple, its a hung parliament and there isnt really much that can be done unless the election is ongoing.
+   *
+   */
   render() {
     super.authenticate();
     return (
@@ -97,18 +119,18 @@ class FirstPastThePost extends VotingModel {
     );
   }
 
-  //react goes in a loop somethimes when not done like this
+  //react goes in a loop sometimes when not done like this
   assignConstituency(value) {
     this.constituencies = value;
     console.log(this.constituencies);
   }
 
-  //react goes in a loop somethimes when not done like this
+  //react goes in a loop sometimes when not done like this
   assignVotes(value) {
     this.votes = value;
   }
 
-  //react goes in a loop somethimes when not done like this
+  //react goes in a loop sometimes when not done like this
   pushToCount(obj) {
     this.counts.push(obj);
   }

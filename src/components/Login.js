@@ -9,6 +9,14 @@ import auth from "../utils/auth";
 
 import "../styles/login.css";
 
+/*
+ *
+ *
+ * Login is used to login and register users for use in the voting system
+ * @exports {Login}
+ *
+ *
+ */
 class Login extends Component {
   constructor(props) {
     super(props);
@@ -25,11 +33,21 @@ class Login extends Component {
       PubSub.publish("navigation", "/elections");
     }
   }
-
+  /**
+   * handles on change event, saves the target name and state as a key value pair in state
+   * @param  {e.target.value}} {[e.target.name]
+   */
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
-
+  /**
+   *
+   *
+   * handles the login button click and throws relevant errors such as postcode is required
+   * and prevents the default event from being triggered
+   *
+   *
+   */
   handleSubmit = e => {
     e.preventDefault();
     let errors = [];

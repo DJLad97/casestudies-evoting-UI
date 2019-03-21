@@ -14,6 +14,11 @@ import ElectionVote from "./ElectionVote";
 
 import "../styles/elections-list.css";
 
+/*
+ * All Elections List is the main render of auditors where they can choose
+ * which elections they would like to view results for
+ * @exports {AllElectionsList}
+ */
 class AllElectionsList extends Component {
   constructor(props) {
     super(props);
@@ -43,6 +48,15 @@ class AllElectionsList extends Component {
     });
     // console.log(auth.getUserInfo());
   }
+
+  /**
+   * renders elections based on the elections loaded from the backend api
+   * Uses a different endpoint than the function named the same in
+   * ElectionsList to retrieve this data
+   * @returns {React.Fragment}s
+   * 
+
+   */
 
   renderElections = () => {
     return this.state.currentElections.map((election, index) => {
