@@ -36,6 +36,7 @@ var assert = require("assert");
       .alert()
       .accept();
 
+    await sleep(3000);
     //Marks the test as passed once the Register Modal is closed and a message has been recieved
     let CurrentURL = await driver.getCurrentUrl();
     assert(CurrentURL == "http://localhost:3000/login");

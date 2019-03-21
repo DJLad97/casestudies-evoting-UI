@@ -33,7 +33,8 @@ var assert = require("assert");
     await sleep(1000);
     await driver.findElement(By.name("btnSubmit")).click();
     await sleep(5000);
-
+    await driver.findElement(By.name("btnConfirm")).click();
+    await sleep(5000);
     //Test passes once it reaches the following URL:
     let CurrentURL = await driver.getCurrentUrl();
     assert(

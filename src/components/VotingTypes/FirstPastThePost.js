@@ -174,6 +174,7 @@ class FirstPastThePost extends Component {
               </Col>
             </Row>
             <Button
+              name="btnSpoil"
               aria-label="Spoil Ballot"
               variant="warning"
               onClick={this.spoilBtn}

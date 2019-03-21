@@ -41,9 +41,9 @@ var assert = require("assert");
     await sleep(1000);
 
     //Prints whether or not the test was sucessful
-    console.log("Election test sucessful");
+    console.log("Spoil Ballot test sucessful");
   } catch (err) {
-    console.log("Election test failed - " + err);
+    console.log("Spoil Ballot test failed - " + err);
   } finally {
     await driver.quit();
   }
