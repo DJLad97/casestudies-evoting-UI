@@ -19,7 +19,7 @@ var assert = require("assert");
       .sendKeys("b3b34acfbd88b79e721ba26c4fe6646c799f91fd");
     await sleep(1000);
     await driver.findElement(By.name("btnLogin")).click();
-    await sleep(1000);
+    await sleep(3000);
 
     //Test passes once it reaches the following URL:
     let CurrentURL = await driver.getCurrentUrl();
