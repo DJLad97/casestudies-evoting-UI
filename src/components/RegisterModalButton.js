@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Form, Modal } from "react-bootstrap";
 import axios from "axios";
-import { useTranslation, withTranslation, Translation } from 'react-i18next';
+import { useTranslation, withTranslation, Translation } from "react-i18next";
 
 import userAPI from "../utils/userAPI";
 import CountryDropdown from "./CountryDropdown";
@@ -12,6 +12,15 @@ import Row from "react-bootstrap/Row";
 import Nav from "react-bootstrap/Nav";
 import Col from "react-bootstrap/Col";
 
+/*
+ *
+ *
+ * RegisterModalButton is the modal for registering new voters into the voting system
+ * @exports  {withTranslation() RegisterModalButton}
+ *
+ *
+ *
+ */
 class RegisterModalButton extends Component {
   constructor(props) {
     super(props);
@@ -37,10 +46,23 @@ class RegisterModalButton extends Component {
     this.submitNewUser = this.submitNewUser.bind(this);
   }
 
+  /*
+   *
+   *
+   * Handles onchange events and stores the values as a key value pair in state
+   *
+   *
+   */
   onChange = e => {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  /*
+   *
+   * submitNewUser handles an event and registers a new event while validating each segment using the relevant validation functions
+   * if successful, posts data to the backend to store in the database
+   * otherwise, displays an alert with a relevant error message
+   */
   submitNewUser(event) {
     function _getAge(dateString) {
       var today = new Date();
@@ -108,6 +130,12 @@ class RegisterModalButton extends Component {
       });
   }
 
+  /*
+   *
+   *
+   * openModal opens a "fresh" instance of the modal code
+   *
+   */
   openModal() {
     this.setState({ modalIsOpen: true });
 
@@ -120,14 +148,31 @@ class RegisterModalButton extends Component {
     this.setState({ fullAddress: "" });
   }
 
+  /*
+   *
+   * Formats the forms subtitle to a different color
+   *
+   */
   afterOpenModal() {
     this.subtitle.style.color = "#f00";
   }
 
+  /*
+   *
+   *
+   *  closeModal closes this current modal
+   *
+   */
   closeModal() {
     this.setState({ modalIsOpen: false });
   }
 
+  /**
+   *
+   *
+   * getRegisterForm returns a new voter registeree form for them to fill in with blank data
+   * @returns {div}
+   */
   getRegisterForm() {
     const { t } = this.props;
 
@@ -137,10 +182,10 @@ class RegisterModalButton extends Component {
           <p>(* indicates a required field)</p>
 
           <Form.Group>
-            <Form.Label>{t('firstName')}: *</Form.Label>
+            <Form.Label>{t("firstName")}: *</Form.Label>
             <Form.Control
               type="text"
-              placeholder={t('firstName')}
+              placeholder={t("firstName")}
               name="firstName"
               onChange={this.onChange}
               value={this.state.firstName}
@@ -148,10 +193,10 @@ class RegisterModalButton extends Component {
             />
           </Form.Group>
           <Form.Group>
-            <Form.Label>{t('lastName')}: *</Form.Label>
+            <Form.Label>{t("lastName")}: *</Form.Label>
             <Form.Control
               type="text"
-              placeholder={t('lastName')}
+              placeholder={t("lastName")}
               name="lastName"
               onChange={this.onChange}
               value={this.state.lastName}
@@ -160,10 +205,10 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>{t('postCode')}: *</Form.Label>
+            <Form.Label>{t("postCode")}: *</Form.Label>
             <Form.Control
               type="text"
-              placeholder={t('postCode')}
+              placeholder={t("postCode")}
               name="mPostCode"
               onChange={this.onChange}
               value={this.state.mPostCode}
@@ -172,9 +217,9 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>{t('country')}: *</Form.Label>
+            <Form.Label>{t("country")}: *</Form.Label>
             <CountryDropdown
-              translation={t('countryDesc')}
+              translation={t("countryDesc")}
               value={this.state.countryId}
               onChange={this.onChange}
               required={true}
@@ -182,9 +227,9 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>{t('nationality')}: *</Form.Label>
+            <Form.Label>{t("nationality")}: *</Form.Label>
             <NationalityDropdown
-              translation={t('nationalityDesc')}
+              translation={t("nationalityDesc")}
               value={this.state.nationality}
               onChange={this.onChange}
               required={true}
@@ -192,7 +237,7 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>{t('dob')}: *</Form.Label>
+            <Form.Label>{t("dob")}: *</Form.Label>
             <Form.Control
               type="date"
               name="dateOfBirth"
@@ -203,10 +248,10 @@ class RegisterModalButton extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>{t('fullAddress')}: *</Form.Label>
+            <Form.Label>{t("fullAddress")}: *</Form.Label>
             <Form.Control
               type="text"
-              placeholder={t('fullAddress')}
+              placeholder={t("fullAddress")}
               name="fullAddress"
               onChange={this.onChange}
               value={this.state.fullAddress}
@@ -219,7 +264,7 @@ class RegisterModalButton extends Component {
             name="btnRegisterModal"
             type="submit"
             className="btn btn-info"
-            value={t('regToVote')}
+            value={t("regToVote")}
           />
         </form>
       </div>
@@ -239,11 +284,11 @@ class RegisterModalButton extends Component {
           data-target="registerModal"
           onClick={this.openModal}
         >
-          {t('registerBtn')}
+          {t("registerBtn")}
         </button>
         <Modal show={this.state.modalIsOpen} onHide={this.closeModal}>
           <Modal.Header closeButton>
-            <Modal.Title>{t('register')}</Modal.Title>
+            <Modal.Title>{t("register")}</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>{this.getRegisterForm()}</Modal.Body>

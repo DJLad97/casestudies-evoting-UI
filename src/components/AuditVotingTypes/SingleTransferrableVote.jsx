@@ -4,6 +4,15 @@ import Col from "react-bootstrap/Col";
 import "../../styles/Borders.scss";
 import "../../styles/text.scss";
 
+/*
+ *
+ * SingleTransferrableVote has the ability to do elections with a single winner and multiple winners,
+ * STV is quite similar to PreferentialVoting with the exception that "Excess" votes from the winners percentage are redistributed
+ * We didnt store the preference of each voter in the database as this would potentially be identifiable data and would conflict with GDPR
+ * as a result, we have simulated this part with random distribution until the number of winners has been met
+ * @exports {SingleTransferrableVote}
+ * @returns {Col}
+ */
 class SingleTransferrableVote extends VotingModel {
   constructor(props) {
     super(props);
@@ -22,6 +31,7 @@ class SingleTransferrableVote extends VotingModel {
   }
   //Single Transferrable Vote = multiple
 
+  //renders a card with nice formatting
   nice_ifyer(title, image, content) {
     console.log(content);
     return (
@@ -51,11 +61,13 @@ class SingleTransferrableVote extends VotingModel {
     );
   }
 
+  //If an election isn't provided with the election, its assumed to be a 1 winner election, otherwise we assign it from the database
   componentWillMount() {
     if (this.state.election.amountOfWinners != undefined) {
       this.numberofwinners = this.state.election.amountOfWinners;
     }
   }
+
   render() {
     return (
       <Col md={{ offset: 2, span: 8 }}>
@@ -67,6 +79,15 @@ class SingleTransferrableVote extends VotingModel {
     );
   }
 
+  /*
+   *
+   *
+   *
+   * getResults pushes results to the counts array for use in other functions in this component,
+   * as well as rendering the candidate names, images and votes
+   *
+   *
+   */
   getResults(candidates) {
     console.log(this.state.election);
     console.log(candidates);
@@ -93,15 +114,18 @@ class SingleTransferrableVote extends VotingModel {
       );
     });
   }
-
+  //react goes in a loop sometimes when not done like this
   pushToCounts(obj) {
     this.counts.push(obj);
   }
-
+  //react goes in a loop sometimes when not done like this
   pushToWinners(obj) {
     this.winners.push(obj);
   }
 
+  /* finds whether or not the candidate has achieved the amount of votes they need to win a spot in this election
+   * @param {votes int}
+   */
   percentageCalculation(votes) {
     return (
       votes / this.numberofvotes >= this.winpercentage / 100 &&
@@ -109,6 +133,13 @@ class SingleTransferrableVote extends VotingModel {
     );
   }
 
+  /*
+   * Calculates the win percentage using the most used method,
+   * The droop formula, by calculating all votes and then math. flooring in the format
+   * floor(x/y+1) +1
+   * More can be learned at
+   * https://en.wikipedia.org/wiki/Single_transferable_vote#More_refined_method:_setting_the_quota
+   */
   getWinPercentage(candidates) {
     this.counts.forEach((count, index) => {
       this.numberofvotes += count.votes;
@@ -121,6 +152,13 @@ class SingleTransferrableVote extends VotingModel {
     return Math.floor(this.numberofvotes / this.numberofwinners + 1) + 1;
   }
 
+  /*
+   *
+   *
+   * sorts an array that contains a votes property on demand
+   * @params {arr}
+   *
+   */
   sortArr(arr) {
     return arr.sort((a, b) => {
       if (a.votes > b.votes) {
@@ -132,11 +170,13 @@ class SingleTransferrableVote extends VotingModel {
       return 0;
     });
   }
+
   getWinner(candidates) {
     let votes = this.sortArr(this.counts);
 
     console.log(votes);
 
+    //if any candidate has reached the threshhold without needing pity votes, add them to the winners list
     votes.forEach((vote, index) => {
       if (this.percentageCalculation(vote.votes)) {
         this.winners.push(vote);
@@ -172,7 +212,7 @@ class SingleTransferrableVote extends VotingModel {
       this.loopcount++;
 
       if (this.loopcount >= 10) {
-        //cant find suitable combo, give it back anyway
+        //cant find suitable combo, give it and register as undecided
 
         this.winnersfound = true;
       }

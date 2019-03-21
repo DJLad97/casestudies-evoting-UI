@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Row, Col, Form, Button, Alert } from 'react-bootstrap';
-import axios from 'axios';
-import isEmpty from 'is-empty';
-import PubSub from 'pubsub-js'
-import { withTranslation } from 'react-i18next';
+import React, { Component } from "react";
+import { Row, Col, Form, Button, Alert } from "react-bootstrap";
+import axios from "axios";
+import isEmpty from "is-empty";
+import PubSub from "pubsub-js";
+import { withTranslation } from "react-i18next";
 
 import ModalClass from "../ModalClass";
 import auth from "../../utils/auth";
@@ -18,7 +18,7 @@ class FirstPastThePost extends Component {
       selectedCandidate: "",
       error: "",
       showModal: false,
-      focusClass: 'candidate'
+      focusClass: "candidate"
     };
   }
 
@@ -31,19 +31,19 @@ class FirstPastThePost extends Component {
     e.preventDefault();
     const { t } = this.props;
     if (isEmpty(this.state.selectedCandidate)) {
-      this.setState({error: t('selectCandidate')});
+      this.setState({ error: t("selectCandidate") });
     } else {
       this.setState({ error: "", showModal: true });
     }
   };
 
   onVoteFocus = () => {
-    this.setState({focusClass: 'candidate vote-focus'})
-  }
+    this.setState({ focusClass: "candidate vote-focus" });
+  };
 
   onVoteBlur = () => {
-    this.setState({focusClass: 'candidate'})
-  }
+    this.setState({ focusClass: "candidate" });
+  };
 
   renderCandidates = () => {
     return this.state.election.candidates.map((candidate, index) => {
@@ -71,7 +71,7 @@ class FirstPastThePost extends Component {
                 onChange={this.handleChange}
                 name="vote"
                 className="radio-vote"
-                aria-label={'Vote for ' + candidate.candidateName}
+                aria-label={"Vote for " + candidate.candidateName}
                 onFocus={this.onVoteFocus}
                 onBlur={this.onVoteBlur}
               />
@@ -97,12 +97,7 @@ class FirstPastThePost extends Component {
       consistuency: auth.getInstance().getUserInfo().constiuenecyId
     };
 
-    await axios
-      .post(
-        endpoint + "/elections/spoil",
-        voteInfo,
-        headers
-      );
+    await axios.post(endpoint + "/elections/spoil", voteInfo, headers);
 
     PubSub.publish(
       "navigation",
@@ -110,7 +105,6 @@ class FirstPastThePost extends Component {
     );
 
     console.log("done");
-
   };
 
   confirmVote = async () => {
@@ -136,58 +130,85 @@ class FirstPastThePost extends Component {
     console.log("Done");
   };
 
-
   render() {
     // console.log(props.election)
     const { t } = this.props;
-        return (
-            <div>
-                <div className="page-content-box">
-                    <Button aria-label="Back to elections page" variant="info" className="ui-btn" onClick={() => PubSub.publish('navigation', '/elections/')}><span aria-hidden="true">&#8592;&nbsp;</span>{t('back')}</Button>
-                    <h2 id="election-name">{this.state.election.electionName}</h2>
-                    <h4 id="instructions">
-                        {t('fptpDescLine1')}
-                        <br/>
-                        {t('fptpDescLine2')}
-                    </h4>
-                    <Form onSubmit={this.handleSubmit}>
-                        <Row>
-                            <Col md={{ span: 8, offset: 2}}>
-                                {
-                                    (!isEmpty(this.state.error)) && 
-                                    <Alert variant="danger">
-                                        {this.state.error}
-                                    </Alert>
-                                }
-                            </Col>
-                            {this.renderCandidates()}
-                            <Col md={{ span: 8, offset: 2}}>
-                                <Button aria-label="Submit vote" variant="primary" size="lg" className="submit-vote ui-btn" type="submit" block>
-                                    {t('submitVote')}
-                                </Button>
-                            </Col>
-                        </Row>
-                        <Button aria-label="Spoil Ballot" variant="warning" onClick={this.spoilBtn} className="spoil-btn ui-btn">{t('spoilBallot')}</Button>
-                    </Form>
-                </div>
-                <ModalClass aria-label={'Confirm vote for ' + this.state.selectedCandidate} header={t('confirmVote')} closeBtn={t('no')} confirmBtn={t('yes')}
-                            show={this.state.showModal} handleConfirm={this.confirmVote} 
-                            handleClose={() => this.setState({showModal: false})}>
-                    <p aria-label={'Confirm vote for ' + this.state.selectedCandidate} className="modal-body">
-                        {/* You have selected to vote for:  */}
-                        {t('voteSelect')}
-                        <br/>
-                        <strong>{this.state.selectedCandidate}</strong>
-                        <br/>
-                        <br/>
-                        {/* Is this your choice? */}
-                        {t('voteFinalise')}
-
-                    </p>
-                </ModalClass>
-            </div>
-        );
-    }
+    return (
+      <div>
+        <div className="page-content-box">
+          <Button
+            aria-label="Back to elections page"
+            variant="info"
+            className="ui-btn"
+            onClick={() => PubSub.publish("navigation", "/elections/")}
+          >
+            <span aria-hidden="true">&#8592;&nbsp;</span>
+            {t("back")}
+          </Button>
+          <h2 id="election-name">{this.state.election.electionName}</h2>
+          <h4 id="instructions">
+            {t("fptpDescLine1")}
+            <br />
+            {t("fptpDescLine2")}
+          </h4>
+          <Form onSubmit={this.handleSubmit}>
+            <Row>
+              <Col md={{ span: 8, offset: 2 }}>
+                {!isEmpty(this.state.error) && (
+                  <Alert variant="danger">{this.state.error}</Alert>
+                )}
+              </Col>
+              {this.renderCandidates()}
+              <Col md={{ span: 8, offset: 2 }}>
+                <Button
+                  name="btnSubmit"
+                  aria-label="Submit vote"
+                  variant="primary"
+                  size="lg"
+                  className="submit-vote ui-btn"
+                  type="submit"
+                  block
+                >
+                  {t("submitVote")}
+                </Button>
+              </Col>
+            </Row>
+            <Button
+              aria-label="Spoil Ballot"
+              variant="warning"
+              onClick={this.spoilBtn}
+              className="spoil-btn ui-btn"
+            >
+              {t("spoilBallot")}
+            </Button>
+          </Form>
+        </div>
+        <ModalClass
+          aria-label={"Confirm vote for " + this.state.selectedCandidate}
+          header={t("confirmVote")}
+          closeBtn={t("no")}
+          confirmBtn={t("yes")}
+          show={this.state.showModal}
+          handleConfirm={this.confirmVote}
+          handleClose={() => this.setState({ showModal: false })}
+        >
+          <p
+            aria-label={"Confirm vote for " + this.state.selectedCandidate}
+            className="modal-body"
+          >
+            {/* You have selected to vote for:  */}
+            {t("voteSelect")}
+            <br />
+            <strong>{this.state.selectedCandidate}</strong>
+            <br />
+            <br />
+            {/* Is this your choice? */}
+            {t("voteFinalise")}
+          </p>
+        </ModalClass>
+      </div>
+    );
+  }
 }
 
 export default withTranslation()(FirstPastThePost);
