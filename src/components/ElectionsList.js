@@ -61,6 +61,8 @@ class ElectionsList extends Component {
           <Link
             key={index}
             to={{ pathname: `/election/${formattedName}`, state: { election } }}
+            className="election-link-container"
+            aria-label={election.electionName}
           >
             <ElectionLink name={election.electionName} />
           </Link>

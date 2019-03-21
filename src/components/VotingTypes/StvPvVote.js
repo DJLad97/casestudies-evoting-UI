@@ -53,9 +53,10 @@ class StvPvVote extends Component {
         button = (
           <Button
             name="btnAdd"
-            className="add-remove-btn"
+            className="add-remove-btn add-btn"
             variant="info"
             onClick={() => this.addToVote(candidate, id)}
+            aria-label={'Add ' + candidate.candidateName + ' to votes'}
           >
             {t('add')}
           </Button>
@@ -64,8 +65,9 @@ class StvPvVote extends Component {
         button = (
           <Button
             name="btnRemove"
-            className="add-remove-btn"
+            className="add-remove-btn remove-btn"
             variant="danger"
+            aria-label={'Remove ' + candidate.candidateName + ' from votes'}
             onClick={() => this.removeFromVote(candidate, id)}
           >
             {t('remove')}
@@ -178,13 +180,43 @@ class StvPvVote extends Component {
       "/vote-confirmed/" + this.state.election.electionName
     );
   };
+
+  spoilBtn = async () => {
+    const endpoint = auth.getInstance().getUserEndpoint();
+    const headers = {
+      headers: {
+        "x-access-token": auth.getInstance().getToken(),
+        "x-access-token2": auth.getInstance().getConsToken()
+      }
+    };
+    let voteInfo = {
+      electionId: this.state.election._id,
+      candidateId: this.state.selectedCandidate,
+      consistuency: auth.getInstance().getUserInfo().constiuenecyId
+    };
+
+    await axios
+      .post(
+        endpoint + "/elections/spoil",
+        voteInfo,
+        headers
+      );
+
+    PubSub.publish(
+      "navigation",
+      "/vote-confirmed/" + this.state.election.electionName
+    );
+
+    console.log("done");
+
+  };
   
   render() {
     const { t } = this.props;
     return (
         <div>
             <div className="page-content-box">
-                <Button variant="info" onClick={() => PubSub.publish('navigation', '/elections/')}>&#8592;&nbsp;{t('back')}</Button>
+                <Button className="ui-btn" variant="info" onClick={() => PubSub.publish('navigation', '/elections/')}><span aria-hidden="true">&#8592;&nbsp;</span>{t('back')}</Button>
                 <h2 id="election-name">{this.state.election.electionName}</h2>
                 <p id="instructions">
                     {/* To rank a candidate, click the add button next to that candidate. */}
@@ -218,23 +250,23 @@ class StvPvVote extends Component {
                             }
                         </Col> */}
                         {/* <Col md={2}></Col> */}
-                        <Col md={4}>
+                        <Col xs={10} sm={10} md={4}>
                             <h3 className="candidate-header">{t('candidates')}</h3>
                             {this.renderCandidates()}
                         </Col>
                         <Col md={2}></Col>
-                        <Col md={4}>
+                        <Col xs={10} sm={10} md={4}>
                             <h3 className="candidate-header">{t('votes')}</h3>
                             {this.renderVotes()}
                         </Col>
                         <Col md={{ span: 8, offset: 2}}>
-                            <Button variant="primary" size="lg" className="submit-vote" type="submit" block>
+                            <Button variant="primary" size="lg" className="submit-vote ui-btn" type="submit" block>
                             {t('submitVote')}
                             </Button>
                         </Col>
                         {/* <Col md={2}></Col> */}
                     </Row>
-                    <Button variant="warning" className="spoil-btn">{t('spoilBallot')}</Button>
+                    <Button variant="warning" onClick={this.spoilBtn} className="spoil-btn ui-btn">{t('spoilBallot')}</Button>
                 </Form>
             </div>
             <ModalClass header={t('confirmVote')} closeBtn={t('no')} confirmBtn={t('yes')} 

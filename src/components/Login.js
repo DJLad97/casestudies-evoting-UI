@@ -147,7 +147,7 @@ class Login extends Component {
                     value={this.state.userCode}
                   />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button name="btnLogin" variant="primary" type="submit">
                   {t("login")}
                 </Button>
               </Form>
