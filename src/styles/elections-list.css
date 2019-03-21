@@ -31,3 +31,8 @@
 .AsAuditor {
   float: right;
 }
+
+body.accessibility-mode .election-link-container:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}

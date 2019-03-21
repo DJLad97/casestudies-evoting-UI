@@ -46,6 +46,7 @@ descreaseZoom = () => {
             {/* Must be present on all pages */}
             <Redirector />
             <div>
+				<Redirect from="/election/login" to="/election" />
                 <Redirect from="/" to="login" />
             </div>
             <Route path="/login" component={Login} />

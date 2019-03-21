@@ -131,6 +131,41 @@ input[type=radio]:checked + label {
 .modal-body {
   text-align: center;
 }
+
+.vote-focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
+
+input.radio-vote:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
+
+.radio-container:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
+
+.candidate:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
+
+.candidate-col:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
+
+body.accessibility-mode .remove-btn:focus {
+  border: 5px solid #16a2b8;
+  box-shadow: none;
+}
+
+body.accessibility-mode .add-btn:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
 /* .form label{
 	position: relative;
 	color: #fff;

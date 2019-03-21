@@ -32,14 +32,18 @@ class ModalClass extends React.Component {
           <Button
             name="btnClose"
             variant="secondary"
+            className="ui-btn"
             onClick={this.props.handleClose}
+            aria-label="No"
           >
             {this.props.closeBtn}
           </Button>
           <Button
             name="btnConfirm"
+            className="ui-btn"
             variant="primary"
             onClick={this.props.handleConfirm}
+            aria-label="Yes"
           >
             {this.props.confirmBtn}
           </Button>
