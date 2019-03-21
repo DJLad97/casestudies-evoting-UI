@@ -1,3 +1,5 @@
+/* Focus color: #ff0d24 */
+
 .page-content-box {
     margin-top: 6rem;
     background-color: #f5f5f5;
@@ -50,7 +52,7 @@ a {
 	margin-top: 2em;
 }
 
-.zoom-btn {
-	border-radius: 10em;
-	margin-left: 1em;
+body.accessibility-mode .ui-btn:focus {
+	border: 5px solid #ff0d24;
+  box-shadow: none;
 }

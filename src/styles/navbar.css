@@ -3,6 +3,25 @@
 	margin: 1em;
 }
 
+.nav-item:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
+
+body.accessibility-mode .language:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
+
+body.accessibility-mode .logout-btn:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
+
+body.accessibility-mode .checkbox-container:focus {
+  border: 5px solid #ff0d24;
+  box-shadow: none;
+}
 .checkbox-container {
     display: block;
     position: relative;
@@ -71,4 +90,15 @@
     -webkit-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
     transform: rotate(45deg);
+  }
+
+
+  .zoom-btn {
+    border-radius: 10em;
+    margin-left: 1em;
+  }
+  
+  .zoom-btn:focus {
+    border: 5px solid #ff0d24;
+    box-shadow: none;
   }

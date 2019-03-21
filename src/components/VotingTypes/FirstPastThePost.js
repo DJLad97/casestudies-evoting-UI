@@ -17,7 +17,8 @@ class FirstPastThePost extends Component {
       election: props.election,
       selectedCandidate: "",
       error: "",
-      showModal: false
+      showModal: false,
+      focusClass: 'candidate'
     };
   }
 
@@ -36,12 +37,19 @@ class FirstPastThePost extends Component {
     }
   };
 
+  onVoteFocus = () => {
+    this.setState({focusClass: 'candidate vote-focus'})
+  }
+
+  onVoteBlur = () => {
+    this.setState({focusClass: 'candidate'})
+  }
+
   renderCandidates = () => {
     return this.state.election.candidates.map((candidate, index) => {
       return (
-        <Col md={{ span: 8, offset: 2 }} key={index}>
+        <Col className="candidate-col" md={{ span: 8, offset: 2 }} key={index}>
           <div className="candidate">
-
             <label className="radio-container">
               <img
                 src={candidate.candidatePicture}
@@ -62,6 +70,10 @@ class FirstPastThePost extends Component {
                 value={candidate.candidateId}
                 onChange={this.handleChange}
                 name="vote"
+                className="radio-vote"
+                aria-label={'Vote for ' + candidate.candidateName}
+                onFocus={this.onVoteFocus}
+                onBlur={this.onVoteBlur}
               />
               <span className="checkmark" />
             </label>
@@ -71,7 +83,7 @@ class FirstPastThePost extends Component {
     });
   };
 
-  spoilBtn = () => {
+  spoilBtn = async () => {
     const endpoint = auth.getInstance().getUserEndpoint();
     const headers = {
       headers: {
@@ -79,20 +91,26 @@ class FirstPastThePost extends Component {
         "x-access-token2": auth.getInstance().getConsToken()
       }
     };
+    let voteInfo = {
+      electionId: this.state.election._id,
+      candidateId: this.state.selectedCandidate,
+      consistuency: auth.getInstance().getUserInfo().constiuenecyId
+    };
 
-    axios
-      .get(
-        endpoint + "/elections/" + this.state.election._id + "/markAsVoted",
+    await axios
+      .post(
+        endpoint + "/elections/spoil",
+        voteInfo,
         headers
-      )
-      .then(res => {
-        PubSub.publish(
-          "navigation",
-          "/vote-confirmed/" + this.state.election.electionName
-        );
+      );
 
-        console.log(res);
-      });
+    PubSub.publish(
+      "navigation",
+      "/vote-confirmed/" + this.state.election.electionName
+    );
+
+    console.log("done");
+
   };
 
   confirmVote = async () => {
@@ -125,21 +143,14 @@ class FirstPastThePost extends Component {
         return (
             <div>
                 <div className="page-content-box">
-                    <Button variant="info" onClick={() => PubSub.publish('navigation', '/elections/')}>&#8592;&nbsp;{t('back')}</Button>
+                    <Button aria-label="Back to elections page" variant="info" className="ui-btn" onClick={() => PubSub.publish('navigation', '/elections/')}><span aria-hidden="true">&#8592;&nbsp;</span>{t('back')}</Button>
                     <h2 id="election-name">{this.state.election.electionName}</h2>
                     <h4 id="instructions">
-                        {/* Please click on the candidate you wish to vote for */}
-                        {/* <br/> */}
-                        {/* You will only be able to choose one candidate */}
                         {t('fptpDescLine1')}
                         <br/>
                         {t('fptpDescLine2')}
                     </h4>
-                    {/* {this.props.location.state.} */}
                     <Form onSubmit={this.handleSubmit}>
-                        {/* <input type="radio" className="candidate" name="radio3" id="jeremy"/><label htmlFor="jeremy">Jeremy</label> */}
-                        {/* <input type="radio" className="candidate" name="radio3" id="theresa"/><label htmlFor="theresa">Theresa</label> */}
-                        {/* <input type="radio" className="candidate" name="radio3" id="boris"/><label htmlFor="boris">Boris</label> */}
                         <Row>
                             <Col md={{ span: 8, offset: 2}}>
                                 {
@@ -151,18 +162,18 @@ class FirstPastThePost extends Component {
                             </Col>
                             {this.renderCandidates()}
                             <Col md={{ span: 8, offset: 2}}>
-                                <Button variant="primary" size="lg" className="submit-vote" type="submit" block>
+                                <Button aria-label="Submit vote" variant="primary" size="lg" className="submit-vote ui-btn" type="submit" block>
                                     {t('submitVote')}
                                 </Button>
                             </Col>
                         </Row>
-                        <Button variant="warning" onClick={this.spoilBtn} className="spoil-btn">{t('spoilBallot')}</Button>
+                        <Button aria-label="Spoil Ballot" variant="warning" onClick={this.spoilBtn} className="spoil-btn ui-btn">{t('spoilBallot')}</Button>
                     </Form>
                 </div>
-                <ModalClass header={t('confirmVote')} closeBtn={t('no')} confirmBtn={t('yes')}
+                <ModalClass aria-label={'Confirm vote for ' + this.state.selectedCandidate} header={t('confirmVote')} closeBtn={t('no')} confirmBtn={t('yes')}
                             show={this.state.showModal} handleConfirm={this.confirmVote} 
                             handleClose={() => this.setState({showModal: false})}>
-                    <p className="modal-body">
+                    <p aria-label={'Confirm vote for ' + this.state.selectedCandidate} className="modal-body">
                         {/* You have selected to vote for:  */}
                         {t('voteSelect')}
                         <br/>

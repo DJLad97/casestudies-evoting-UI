@@ -25,6 +25,13 @@ class Navbar extends Component {
 
     handleAccessibilityMode = (e) => {
         this.setState({accessibilityMode: !this.state.accessibilityMode});
+        if(!this.state.accessibilityMode){
+            document.body.classList.add('accessibility-mode');
+        }
+        else{
+            document.body.classList.remove('accessibility-mode');
+
+        }
     }
     
     logout = () => {
@@ -44,10 +51,10 @@ class Navbar extends Component {
                 {
                     (this.state.accessibilityMode) &&
                     <Nav.Item>
-                        <label className="checkbox-container">{t('zoom')}
-                            <Button variant="secondary" onClick={this.props.increaseZoom} className="zoom-btn">&#43;</Button>
-                            <Button variant="secondary" onClick={this.props.descreaseZoom} className="zoom-btn">&#8722;</Button>
+                        <label style={{'font-size': '1.2em'}}>{t('zoom')}
                         </label>
+                            <Button variant="secondary" aria-label="Increase Zoom" onClick={this.props.increaseZoom} className="zoom-btn"><span aria-hidden="true">&#43;</span></Button>
+                            <Button variant="secondary" aria-label="Decrease Zoom" onClick={this.props.descreaseZoom} className="zoom-btn"><span aria-hidden="true">&#8722;</span></Button>
                     </Nav.Item>
                 }
                 <Nav.Item>
@@ -59,17 +66,17 @@ class Navbar extends Component {
                     </label>
                 </Nav.Item>
                 <Nav.Item>
-                    <Form.Control value={this.state.lang} onChange={this.changeLanguage} as="select">
-                        <option value="en">English</option>
-                        <option value="fr">Français</option>
-                        <option value="es">Español</option>
-                        <option value="cy">Cymraeg</option>
+                    <Form.Control aria-label="Language select" className="language" value={this.state.lang} onChange={this.changeLanguage} as="select">
+                        <option aria-label="English" value="en">English</option>
+                        <option aria-label="French" value="fr">Français</option>
+                        <option aria-label="Spanish" value="es">Español</option>
+                        <option aria-label="Welsh" value="cy">Cymraeg</option>
                     </Form.Control>
                 </Nav.Item>
                 {
                     auth.getInstance().isAuthenticated() &&
                     <Nav.Item>
-                        <Button variant="primary" onClick={this.logout}>{t('logout')}</Button>
+                        <Button variant="primary" className="logout-btn" onClick={this.logout}>{t('logout')}</Button>
                     </Nav.Item>
                 }
             </Nav>
