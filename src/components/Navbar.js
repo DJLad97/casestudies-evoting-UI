@@ -61,7 +61,7 @@ class Navbar extends Component {
                     <label className="checkbox-container">{t('accessibilityMode')}
                         <input type="checkbox" defaultChecked={this.state.accessibilityMode} 
                             onChange={this.handleAccessibilityMode}
-                            id="accessibility-mode"/>
+                            id="accessibility-mode-checkbox"/>
                         <span className="checkbox"></span>
                     </label>
                 </Nav.Item>
