@@ -10,6 +10,11 @@ import ElectionLink from "./ElectionLink";
 
 import "../styles/elections-list.css";
 
+/*
+ * Elections List is the main render of the elections where users can choose
+ * which elections they would like to vote in
+ * @exports {ElectionsList}
+ */
 class ElectionsList extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +42,12 @@ class ElectionsList extends Component {
     });
     // console.log(auth.getInstance().getUserInfo());
   }
+  /**
+   * renders elections based on the elections loaded from the backend api
+   * @returns {React.Fragment}s
+   * 
+
+   */
 
   renderElections = () => {
     return this.state.currentElections.map((election, index) => {
@@ -74,24 +85,22 @@ class ElectionsList extends Component {
   };
 
   render() {
-	const { t } = this.props;
-	return (
-		<div className="page-content-box elections-list">
-			<h3 id="elections-list-header">
-				{/* Please choose the election you wish to vote in */}
-				{t('electionHeader')}
-			</h3>
-			<Row>
-				<Col md={{ span: 8, offset: 2 }}>
-
-				{
-					(isEmpty(this.state.currentElections) && !this.state.loading) && 
-					<Alert variant="warning">
-						<p>{t('noElections')}</p>
-					</Alert>
-				}
-				</Col>
-				{ (!isEmpty(this.state.currentElections)) && this.renderElections() }
+    const { t } = this.props;
+    return (
+      <div className="page-content-box elections-list">
+        <h3 id="elections-list-header">
+          {/* Please choose the election you wish to vote in */}
+          {t("electionHeader")}
+        </h3>
+        <Row>
+          <Col md={{ span: 8, offset: 2 }}>
+            {isEmpty(this.state.currentElections) && !this.state.loading && (
+              <Alert variant="warning">
+                <p>{t("noElections")}</p>
+              </Alert>
+            )}
+          </Col>
+          {!isEmpty(this.state.currentElections) && this.renderElections()}
 
           <Col md={{ span: 8, offset: 2 }}>
             {this.state.loading && <div className="lds-dual-ring" />}

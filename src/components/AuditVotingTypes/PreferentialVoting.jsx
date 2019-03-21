@@ -2,6 +2,18 @@ import React, { Component } from "react";
 import VotingModel from "./VotingModel";
 import Col from "react-bootstrap/Col";
 
+/*
+ *
+ *
+ * Preferential voting is a vote based on preference, with only one winner
+ * Each vote will gain amounts of votes = the number of candidates - the preference + 1
+ * E.g. 7 candidates - 1 preference + 1 = 7 votes
+ * E.g. 7 candidates - 2 preference + 1 = 6 votes
+ * @exports {PreferentialVoting}
+ * @returns {Col}
+ *
+ */
+
 class PreferentialVoting extends VotingModel {
   constructor(props) {
     super(props);
@@ -25,6 +37,7 @@ class PreferentialVoting extends VotingModel {
     );
   }
 
+  //renders a card with nice formatting
   nice_ifyer(title, image, content) {
     console.log(content);
     return (
@@ -54,6 +67,15 @@ class PreferentialVoting extends VotingModel {
     );
   }
 
+  /*
+   *
+   *
+   *
+   * getResults pushes results to the counts array for use in other functions in this component,
+   * as well as rendering the candidate names, images and votes
+   *
+   *
+   */
   getResults(candidates) {
     console.log(this.state.election);
     candidates.map((candidate, index) => {
@@ -82,10 +104,19 @@ class PreferentialVoting extends VotingModel {
       </h1>
     );
   }
-
+  //react goes in a loop sometimes when not done like this
   pushToCounts(obj) {
     this.counts.push(obj);
   }
+
+  /*
+   *
+   * getWinner returns the winner of the election by
+   * 1) sorting the counts array in order
+   * 2) If there is one candidate with the most votes they are the winner
+   * 2a) If there are multiple candidates, the election is a tie
+   *
+   */
   getWinner(candidates) {
     let votes = this.counts.sort((a, b) => {
       if (a.votes > b.votes) {

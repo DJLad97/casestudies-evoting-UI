@@ -1,6 +1,15 @@
 import React, { Component } from "react";
 import { Button, Modal } from "react-bootstrap";
 
+/*
+ *
+ *
+ * ModalClass is a component used to render modals on request using the show and close events passed into props
+ *@prop {handleShow} event to be triggered when component is first rendered
+ *@prop {handleClose} event to be triggered before the modal component is closed
+ *
+ *
+ */
 class ModalClass extends React.Component {
   constructor(props) {
     super(props);

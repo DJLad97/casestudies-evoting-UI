@@ -3,6 +3,14 @@ import Factory from "../Factories/AuditElectionTypeFactory";
 import Auth from "../utils/auth";
 import PubSub from "pubsub-js";
 
+/*
+ *
+ *
+ * Audit is the component used to generate the correct voting type using the AuditElectionTypeFactory
+ * @exports {Audit}
+ * @props {location}
+ *
+ */
 class Audit extends Component {
   constructor(props) {
     super(props);
