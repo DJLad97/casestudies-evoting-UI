@@ -10,7 +10,7 @@ var assert = require("assert");
   //Assigns Chrome to be the test builder
   let driver = await new Builder().forBrowser("chrome").build();
   try {
-    //Navigates to the login page and enters the site with a standard account
+    //Navigates to the login page and enters the site with an auditor account
     await driver.get("http://localhost:3000/login");
     await sleep(1000);
     await driver.findElement(By.name("postCode")).sendKeys("s14dg");
@@ -20,30 +20,24 @@ var assert = require("assert");
     await driver.findElement(By.name("btnLogin")).click();
     await sleep(3000);
 
-    //Enters the first past the post election
+    //Once logged in, the Selenium then navigates to the auditor tab
     await driver.findElement(By.name("btnViewAll")).click();
     await sleep(2000);
-    await driver
-      .findElement(By.linkText("EU Referendum 2 - Electric Boogaloo"))
-      .click();
+    await driver.findElement(By.linkText("View as Auditor")).click();
     await sleep(3000);
-
-    //Clicks the spoil ballot button
-    await driver.findElement(By.name("btnSpoil")).click();
-    await sleep(1000);
 
     //Test passes once it reaches the following URL:
     let CurrentURL = await driver.getCurrentUrl();
     assert(
       CurrentURL ==
-        "http://localhost:3000/vote-confirmed/EU%20Referendum%202%20-%20Electric%20Boogaloo"
+        "http://localhost:3000/audit/viewelection/eu-referendum-2--electric-boogaloo"
     );
     await sleep(1000);
 
     //Prints whether or not the test was sucessful
-    console.log("Election test sucessful");
+    console.log("Audit test sucessful");
   } catch (err) {
-    console.log("Election test failed - " + err);
+    console.log("Audit test failed - " + err);
   } finally {
     await driver.quit();
   }

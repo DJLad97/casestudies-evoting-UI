@@ -22,7 +22,9 @@ var assert = require("assert");
     await sleep(1000);
     await driver.findElement(By.name("countryId")).sendKeys("united kindom");
     await driver.findElement(By.name("nationality")).sendKeys("bri");
-    await driver.findElement(By.name("dateOfBirth")).sendKeys("16111996");
+
+    //Ensures the age of the user is under 18
+    await driver.findElement(By.name("dateOfBirth")).sendKeys("16112017");
     await driver
       .findElement(By.name("fullAddress"))
       .sendKeys("12 Borkland Power, 16 Borkland Lane");
@@ -30,21 +32,21 @@ var assert = require("assert");
 
     await sleep(3000);
 
-    //Accepts and closes the confirmation alert
+    //Checks the alert prevents the user from being created
     driver
       .switchTo()
       .alert()
       .accept();
+    await sleep(2000);
 
-    //Marks the test as passed once the Register Modal is closed and a message has been recieved
     let CurrentURL = await driver.getCurrentUrl();
     assert(CurrentURL == "http://localhost:3000/login");
     await sleep(1000);
 
     //Prints whether or not the test was sucessful
-    console.log("Register test sucessful");
+    console.log("Under 18 Register test sucessful");
   } catch (err) {
-    console.log("Register test failed - " + err);
+    console.log("Under 18 Register test failed - " + err);
   } finally {
     await driver.quit();
   }
